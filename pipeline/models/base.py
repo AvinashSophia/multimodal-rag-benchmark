@@ -21,6 +21,8 @@ class BaseModel(ABC):
         question: str,
         text_context: List[str],
         image_context: List[Any],
+        text_ids: Optional[List[str]] = None,
+        image_ids: Optional[List[str]] = None,
     ) -> ModelResult:
         """Run the model on a question with retrieved context.
 

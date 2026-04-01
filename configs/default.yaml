@@ -10,13 +10,26 @@ dataset:
 # Retrieval settings
 retrieval:
   text:
-    method: "bm25"  # Options: bm25, dense
-    model_name: "BAAI/bge-large-en-v1.5"  # For dense retrieval
+    method: "dense_qdrant"  # Options: bm25, dense, dense_qdrant, bm25_elastic
+    model_name: "BAAI/bge-large-en-v1.5"  # For dense/dense_qdrant
     top_k: 5
+    qdrant:
+      path: "pipeline/outputs/qdrant_store"
+      collection: "dense_text"
+    elasticsearch:
+      url: "http://localhost:9200"
+      index: "bm25_text"
+      username: ""   # optional, for secured clusters
+      password: ""   # optional, for secured clusters
+      ca_cert: ""    # optional, for HTTPS with custom CA
   image:
-    method: "clip"  # Options: clip
+    method: "clip"  # Options: clip, clip_qdrant
     model_name: "ViT-B-32"
     top_k: 5
+    fusion_alpha: 0.5  # Weight for text→image vs image→image fusion (1.0 = text only, 0.0 = image only)
+    qdrant:
+      path: "pipeline/outputs/qdrant_store"
+      collection: "clip_images"
 
 # Model settings
 model:
@@ -26,7 +39,13 @@ model:
     max_tokens: 512
     temperature: 0.0
   gemini:
-    model_id: "gemini-2.0-flash"
+    model_id: "gemini-2.5-pro"
+    max_tokens: 512
+    temperature: 0.0
+  gemini_vertex:
+    project_id: "way-back-home-487418"
+    location: "us-central1"
+    model_id: "gemini-2.5-flash-lite-preview-09-2025"
     max_tokens: 512
     temperature: 0.0
   qwen_vl:
@@ -35,6 +54,7 @@ model:
 
 # Evaluation settings
 evaluation:
+  backend: "production"  # Options: custom (fast, no deps), production (ranx + HF evaluate + RAGAS)
   retrieval_metrics: ["recall_at_k", "mrr", "ndcg"]
   answer_metrics: ["exact_match", "f1"]
   grounding_metrics: ["faithfulness", "attribution_accuracy"]

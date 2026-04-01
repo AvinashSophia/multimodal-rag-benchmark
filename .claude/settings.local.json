@@ -2,5 +2,47 @@
     "permissions": {
         "allow": ["mcp__playwright"],
         "deny": []
+    },
+
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Read|Grep",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "$PWD/.claude/hooks/block_env_read.sh",
+                        "timeout": 10
+                    }
+                ]
+            },
+            {
+                "matcher": "Bash|Read|Write|Edit|MultiEdit|Grep|Glob",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "jq --arg ts \"$(date '+%Y-%m-%d %H:%M:%S')\" --arg event \"PreToolUse\" '. + {_debug_event: $event, _debug_ts: $ts}' >> $PWD/.claude/hooks/hook_inputs.log 2>/dev/null || true",
+                        "async": true
+                    }
+                ]
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write|MultiEdit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "$PWD/.claude/hooks/typecheck_on_edit.sh",
+                        "timeout": 30
+                    },
+                    {
+                        "type": "command",
+                        "command": "jq --arg ts \"$(date '+%Y-%m-%d %H:%M:%S')\" --arg event \"PostToolUse\" '. + {_debug_event: $event, _debug_ts: $ts}' >> $PWD/.claude/hooks/hook_inputs.log 2>/dev/null || true",
+                        "async": true
+                    }
+                ]
+            }
+        ]
     }
 }
