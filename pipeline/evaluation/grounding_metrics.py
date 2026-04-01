@@ -1,6 +1,6 @@
 """Grounding evaluation metrics: Faithfulness, Attribution accuracy."""
 
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 
 def faithfulness_score(
@@ -82,8 +82,8 @@ def attribution_accuracy(
 def compute_grounding_metrics(
     answer: str,
     retrieved_context: List[str],
-    used_sources: List[str] = None,
-    relevant_sources: List[str] = None,
+    used_sources: Optional[List[str]] = None,
+    relevant_sources: Optional[List[str]] = None,
 ) -> Dict[str, float]:
     """Compute all grounding metrics.
 

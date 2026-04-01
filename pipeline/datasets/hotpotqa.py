@@ -1,6 +1,6 @@
 """HotpotQA dataset loader for multi-document reasoning evaluation."""
 
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 from datasets import load_dataset as hf_load_dataset
 from pipeline.datasets.base import BaseDataset, register_dataset
 from pipeline.utils import UnifiedSample
@@ -49,7 +49,7 @@ class HotpotQADataset(BaseDataset):
             )
             self.samples.append(sample)
 
-    def get_corpus(self) -> tuple:
+    def get_corpus(self) -> Tuple[List[str], List[str]]:
         """Return all text passages across all samples for indexing."""
         corpus = []
         corpus_ids = []
@@ -63,6 +63,6 @@ class HotpotQADataset(BaseDataset):
                     seen.add(doc)
         return corpus, corpus_ids
 
-    def get_images(self) -> List[Any]:
+    def get_images(self) -> Tuple[List[Any], List[str]]:
         """HotpotQA has no images."""
-        return []
+        return [], []

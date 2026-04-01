@@ -1,7 +1,7 @@
 """Base dataset class and dataset loader registry."""
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional, Iterator
+from typing import Dict, List, Any, Optional, Iterator, Tuple
 from pipeline.utils import UnifiedSample
 
 
@@ -29,13 +29,13 @@ class BaseDataset(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_corpus(self) -> List[str]:
-        """Return the full text corpus for indexing by retrievers."""
+    def get_corpus(self) -> Tuple[List[str], List[str]]:
+        """Return the full text corpus and corresponding IDs for indexing by retrievers."""
         raise NotImplementedError
 
     @abstractmethod
-    def get_images(self) -> List[Any]:
-        """Return all images for indexing by image retrievers."""
+    def get_images(self) -> Tuple[List[Any], List[str]]:
+        """Return all images and their corresponding IDs for indexing by image retrievers."""
         raise NotImplementedError
 
     def __len__(self) -> int:

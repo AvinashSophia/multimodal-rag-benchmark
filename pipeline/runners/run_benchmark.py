@@ -9,7 +9,6 @@ import json
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any
-from networkx import config
 from tqdm import tqdm
 
 from pipeline.utils import load_config, setup_output_dirs, save_json, BenchmarkResult
@@ -41,30 +40,30 @@ def run_benchmark(config: Dict[str, Any]) -> None:
     random.seed(config["run"]["seed"])
     np.random.seed(config["run"]["seed"])
 
-    # Setup output directory
-    run_dir = setup_output_dirs(config)
-    save_json(config, run_dir / "config.json")
-    print(f"Results will be saved to: {run_dir}")
-
     # 1. Load dataset
     print(f"\n[1/5] Loading dataset: {config['dataset']['name']}")
     dataset = get_dataset(config)
     dataset.load()
     print(f"  Loaded {len(dataset)} samples")
 
+    # Setup output directory (after dataset load so we know if images are used)
+    images, image_ids = dataset.get_images()
+    run_dir = setup_output_dirs(config, has_images=bool(images))
+    save_json(config, run_dir / "config.json")
+    print(f"Results will be saved to: {run_dir}")
+
     # 2. Build retrieval index
     print(f"\n[2/5] Building retrieval index...")
     text_retriever = get_retriever(config, "text")
 
     image_retriever = None
-    if dataset.get_images():
+    if images:
         image_retriever = get_retriever(config, "image")
 
     hybrid_retriever = HybridRetriever(text_retriever, image_retriever)
 
     corpus, corpus_ids = dataset.get_corpus()
-    images = dataset.get_images()
-    hybrid_retriever.index(corpus,  corpus_ids, images if images else None)
+    hybrid_retriever.index(corpus, corpus_ids, images if images else None, image_ids if image_ids else None)
     print(f"  Indexed {len(corpus)} text chunks, {len(images)} images")
 
     # 3. Load model
@@ -81,9 +80,10 @@ def run_benchmark(config: Dict[str, Any]) -> None:
     image_top_k = config["retrieval"]["image"].get("top_k", 5)
 
     for sample in tqdm(dataset, desc="Benchmarking"):
-        # Retrieve
+        # Retrieve — pass query image when sample has one (DocVQA/GQA image→image)
+        query_image = sample.images[0] if sample.images else None
         retrieved = hybrid_retriever.retrieve(
-            sample.question, text_top_k=text_top_k, image_top_k=image_top_k
+            sample.question, text_top_k=text_top_k, image_top_k=image_top_k, query_image=query_image
         )
 
         # Generate answer
@@ -95,23 +95,28 @@ def run_benchmark(config: Dict[str, Any]) -> None:
             image_ids=retrieved.image_ids,
         )
 
-        # Get relevant docs for retrieval metrics 
+        # Get relevant docs for retrieval metrics
         relevant_texts = []
+        relevant_text_ids = []
         relevant_images = []
         if "supporting_facts" in sample.metadata:
             titles = sample.metadata["supporting_facts"].get("titles", [])
-            relevant_texts = [
-                doc for doc in sample.text_corpus
-                if any(title in doc for title in titles)
-            ]
+            for doc in sample.text_corpus:
+                if any(doc.startswith(f"[{title}]") for title in titles):
+                    relevant_texts.append(doc)
+                    # Extract title as ID — matches corpus_ids assigned by get_corpus()
+                    relevant_text_ids.append(doc.split("]")[0].replace("[", "").strip())
 
         if sample.images:
-            relevant_images  = sample.images
+            relevant_images = sample.images
 
-        # Build relevant_sources: ground truth for attribution
-        relevant_sources = relevant_texts.copy()
+        # Use image IDs stored on the sample at load time (match what CLIPRetriever indexed)
+        relevant_image_ids = sample.image_ids
+
+        # Build relevant_sources using ground-truth IDs so they match what the model cites
+        relevant_sources = relevant_text_ids.copy()
         if sample.images:
-            relevant_sources += [f"image_{sample.id}_{i}" for i in range(len(sample.images))]
+            relevant_sources += relevant_image_ids
                 
         
         # Evaluate
@@ -121,11 +126,11 @@ def run_benchmark(config: Dict[str, Any]) -> None:
             retrieved_texts=retrieved.text_chunks,
             retrieved_text_ids=retrieved.text_ids if retrieved.text_ids else None,
             relevant_texts=relevant_texts if relevant_texts else None,
-            relevant_text_ids= None,
+            relevant_text_ids=relevant_text_ids if relevant_text_ids else None,
             retrieved_images=retrieved.images if retrieved.images else None,
-            retrieved_image_ids= None,
+            retrieved_image_ids=retrieved.image_ids if retrieved.image_ids else None,
             relevant_images=relevant_images if relevant_images else None,
-            relevant_image_ids= None,
+            relevant_image_ids=relevant_image_ids if relevant_image_ids else None,
             used_sources=model_result.sources,
             relevant_sources=relevant_sources if relevant_sources else None,
             all_ground_truths=sample.metadata.get("all_answers", None),
@@ -134,18 +139,20 @@ def run_benchmark(config: Dict[str, Any]) -> None:
             has_images=bool(sample.images),
         )
         all_metrics.append(metrics)
-        print("all_metrics claculated")
 
         # Store complete result
         result = BenchmarkResult(
             sample_id=sample.id,
             question=sample.question,
             ground_truth=sample.ground_truth,
+            raw_answer=model_result.raw_response,
             predicted_answer=model_result.answer,
             retrieved_context={
                 "text_chunks": retrieved.text_chunks,
+                "text_ids": retrieved.text_ids,
                 "text_scores": retrieved.text_scores,
                 "num_images": len(retrieved.images),
+                "image_ids": retrieved.image_ids,
                 "image_scores": retrieved.image_scores,
             },
             attribution={
@@ -157,7 +164,6 @@ def run_benchmark(config: Dict[str, Any]) -> None:
             metadata={"model_metadata": model_result.metadata},
         )
         all_results.append(result)
-        print("all_results calculated")
 
     # 5. Aggregate and save
     print(f"\n[5/5] Saving results...")
@@ -175,7 +181,8 @@ def run_benchmark(config: Dict[str, Any]) -> None:
     print("BENCHMARK RESULTS")
     print("=" * 60)
     print(f"Dataset: {config['dataset']['name']}")
-    print(f"Retriever: {config['retrieval']['text']['method']}")
+    print(f"Text Retriever:  {config['retrieval']['text']['method']}")
+    print(f"Image Retriever: {config['retrieval']['image']['method']}")
     print(f"Model: {config['model']['name']}")
     print(f"Samples: {len(dataset)}")
     print("-" * 40)

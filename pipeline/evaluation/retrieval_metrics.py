@@ -89,9 +89,9 @@ def compute_retrieval_metrics(
     """
     metrics = {}
 
+    metrics["mrr"] = mrr(retrieved, relevant)
     for k in k_values:
         metrics[f"recall@{k}"] = recall_at_k(retrieved, relevant, k)
         metrics[f"ndcg@{k}"] = ndcg_at_k(retrieved, relevant, k)
-        metrics[f"mrr@{k}"] = mrr(retrieved, relevant)
 
     return metrics

@@ -1,7 +1,9 @@
-"""Google Gemini multimodal model wrapper."""
+"""Google Gemini multimodal model wrapper using the google-genai SDK."""
 
 import os
-from typing import Dict, List, Any
+import re
+from io import BytesIO
+from typing import Dict, List, Any, Optional
 from PIL import Image
 from pipeline.models.base import BaseModel, register_model
 from pipeline.utils import ModelResult
@@ -11,44 +13,80 @@ from pipeline.utils import ModelResult
 class GeminiModel(BaseModel):
     """Google Gemini model wrapper for multimodal QA.
 
+    Uses the new google-genai SDK (replaces deprecated google-generativeai).
     Supports text + image inputs via the Gemini API.
     """
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
-        import google.generativeai as genai
+        from google import genai
+        from google.genai import types
 
-        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
         self.model_id = config["model"]["gemini"].get("model_id", "gemini-2.0-flash")
         self.max_tokens = config["model"]["gemini"].get("max_tokens", 512)
         self.temperature = config["model"]["gemini"].get("temperature", 0.0)
-        self.model = genai.GenerativeModel(self.model_id)
 
-    def _build_prompt(self, question: str, text_context: List[str], has_images: bool = False) -> str:
-        context_str = "\n\n".join(
-            [f"[Document {i+1}]: {chunk}" for i, chunk in enumerate(text_context)]
+        self.client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        self.generation_config = types.GenerateContentConfig(
+            system_instruction=(
+                "You are a precise question-answering assistant. "
+                "Always follow this exact output format:\n"
+                "1. Answer: one word, name, number, or short phrase only — no full sentences.\n"
+                "2. On a new line: Sources: [id1, id2, ...] listing every source ID you used.\n"
+                "Never skip the Sources line. Never add explanation or extra text."
+            ),
+            max_output_tokens=self.max_tokens,
+            temperature=self.temperature,
+            safety_settings=[
+                types.SafetySetting(category=types.HarmCategory.HARM_CATEGORY_HARASSMENT,        threshold=types.HarmBlockThreshold.BLOCK_NONE),
+                types.SafetySetting(category=types.HarmCategory.HARM_CATEGORY_HATE_SPEECH,       threshold=types.HarmBlockThreshold.BLOCK_NONE),
+                types.SafetySetting(category=types.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold=types.HarmBlockThreshold.BLOCK_NONE),
+                types.SafetySetting(category=types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold=types.HarmBlockThreshold.BLOCK_NONE),
+            ],
         )
-        
-        if has_images and text_context:
+
+    def _build_prompt(self, question: str, text_context: List[str], text_ids: Optional[List[str]] = None, has_images: bool = False) -> str:
+        """Build the text portion of the prompt. Images are interleaved in run_model."""
+        has_text = len(text_context) > 0
+
+        citation_instruction = (
+            "Answer in as few words as possible — ideally a single word, name, number, or short phrase. "
+            "Do not write a full sentence. No inline citations or brackets in the answer.\n"
+            "On a new line, list ONLY the exact source IDs you used, in this format:\n"
+            "Sources: [id1, id2, ...]"
+        )
+
+        if has_text:
+            if text_ids:
+                context_str = "\n\n".join(
+                    [f"[{text_ids[i]}]: {chunk}" for i, chunk in enumerate(text_context)]
+                )
+            else:
+                context_str = "\n\n".join(
+                    [f"[doc_{i}]: {chunk}" for i, chunk in enumerate(text_context)]
+                )
+
+        if has_text and has_images:
             return (
-                f"Answer the following question based on the provided text and images.\n\n"
+                f"Answer the following question based on the provided text and labeled images below.\n\n"
                 f"Text Context:\n{context_str}\n\n"
-                f"Images are also provided for reference.\n\n"
                 f"Question: {question}\n\n"
-                f"Provide a concise answer and cite which document(s) or image(s) you used."
+                f"Each image is preceded by its ID label (e.g. [image_id]:).\n\n"
+                f"{citation_instruction}"
             )
         elif has_images:
             return (
-                f"Answer the following question based on the provided images.\n\n"
+                f"Answer the following question based on the labeled images below.\n\n"
                 f"Question: {question}\n\n"
-                f"Provide a concise answer and cite which image(s) you used."
+                f"Each image is preceded by its ID label (e.g. [image_id]:).\n\n"
+                f"{citation_instruction}"
             )
         else:
             return (
                 f"Answer the following question based on the provided context.\n\n"
                 f"Context:\n{context_str}\n\n"
                 f"Question: {question}\n\n"
-                f"Provide a concise answer and cite which document(s) you used."
+                f"{citation_instruction}"
             )
 
     def run_model(
@@ -56,31 +94,55 @@ class GeminiModel(BaseModel):
         question: str,
         text_context: List[str],
         image_context: List[Any],
+        text_ids: Optional[List[str]] = None,
+        image_ids: Optional[List[str]] = None,
     ) -> ModelResult:
         """Run Gemini on the question with text and image context."""
-        prompt = self._build_prompt(question, text_context, has_images=len(image_context) > 0)
+        from google.genai import types
 
-        # Build content list with text and images
-        content = [prompt]
-        for img in image_context:
+        prompt = self._build_prompt(question, text_context, text_ids=text_ids, has_images=bool(image_context))
+
+        # Build content: text prompt, then interleave [image_id]: label + image bytes
+        contents: List[Any] = [prompt]
+        for i, img in enumerate(image_context):
             if isinstance(img, str):
                 img = Image.open(img)
-            content.append(img)
+            buf = BytesIO()
+            img.convert("RGB").save(buf, format="PNG")
+            img_id = image_ids[i] if image_ids and i < len(image_ids) else f"image_{i}"
+            contents.append(f"[{img_id}]:")
+            contents.append(types.Part.from_bytes(data=buf.getvalue(), mime_type="image/png"))
 
-        response = self.model.generate_content(
-            content,
-            generation_config={
-                "max_output_tokens": self.max_tokens,
-                "temperature": self.temperature,
-            },
+        response = self.client.models.generate_content(
+            model=self.model_id,
+            contents=contents,
+            config=self.generation_config,
         )
 
-        answer = response.text
+        # Gracefully handle blocked responses
+        try:
+            answer: str = response.text or ""
+        except ValueError:
+            return ModelResult(
+                answer="",
+                sources=[],
+                raw_response="[BLOCKED by safety filter]",
+                metadata={"model": self.model_id},
+            )
+
+        # Parse cited source IDs — handles: Sources: [id1, id2], [id1], [id2], or id1, id2
+        sources: List[str] = []
+        source_match = re.search(r'[Ss]ources:\s*(.+)', answer)
+        if source_match:
+            raw = source_match.group(1).replace('[', '').replace(']', '')
+            sources = [s.strip() for s in raw.split(',') if s.strip()]
+
+        # Strip the entire Sources line so answer metrics aren't polluted by it
+        clean_answer = re.sub(r'\s*[Ss]ources:\s*.+', '', answer).strip()
 
         return ModelResult(
-            answer=answer,
-            sources=[f"doc_{i+1}" for i in range(len(text_context))]
-            + [f"img_{i+1}" for i in range(len(image_context))],
+            answer=clean_answer,
+            sources=sources,
             raw_response=answer,
             metadata={"model": self.model_id},
         )

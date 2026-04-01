@@ -7,14 +7,30 @@
   },
   "retrieval": {
     "text": {
-      "method": "bm25",
+      "method": "dense_qdrant",
       "model_name": "BAAI/bge-large-en-v1.5",
-      "top_k": 5
+      "top_k": 5,
+      "qdrant": {
+        "path": "pipeline/outputs/qdrant_store",
+        "collection": "dense_text"
+      },
+      "elasticsearch": {
+        "url": "http://localhost:9200",
+        "index": "bm25_text",
+        "username": "",
+        "password": "",
+        "ca_cert": ""
+      }
     },
     "image": {
       "method": "clip",
       "model_name": "ViT-B-32",
-      "top_k": 5
+      "top_k": 5,
+      "fusion_alpha": 0.5,
+      "qdrant": {
+        "path": "pipeline/outputs/qdrant_store",
+        "collection": "clip_images"
+      }
     }
   },
   "model": {
@@ -25,7 +41,14 @@
       "temperature": 0.0
     },
     "gemini": {
-      "model_id": "gemini-2.0-flash",
+      "model_id": "gemini-2.5-pro",
+      "max_tokens": 512,
+      "temperature": 0.0
+    },
+    "gemini_vertex": {
+      "project_id": "way-back-home-487418",
+      "location": "us-central1",
+      "model_id": "gemini-2.5-flash-lite-preview-09-2025",
       "max_tokens": 512,
       "temperature": 0.0
     },
@@ -35,6 +58,7 @@
     }
   },
   "evaluation": {
+    "backend": "production",
     "retrieval_metrics": [
       "recall_at_k",
       "mrr",

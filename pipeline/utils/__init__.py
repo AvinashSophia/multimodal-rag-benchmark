@@ -6,7 +6,7 @@ import yaml
 import hashlib
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 from dataclasses import dataclass, field, asdict
 from PIL import Image
 
@@ -17,21 +17,31 @@ def load_config(config_path: str) -> Dict[str, Any]:
         return yaml.safe_load(f)
 
 
-def setup_output_dirs(config: Dict[str, Any]) -> Path:
-    """Create output directories for a benchmark run."""
+def setup_output_dirs(config: Dict[str, Any], has_images: bool = False) -> Path:
+    """Create output directories for a benchmark run.
+
+    The directory name reflects only the retrievers actually used:
+      {dataset}_{text_method}_{image_method}_{model}_{timestamp}   (with images)
+      {dataset}_{text_method}_{model}_{timestamp}                  (text-only)
+    """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     dataset = config["dataset"]["name"]
-    retriever = config["retrieval"]["text"]["method"]
+    text_method = config["retrieval"]["text"]["method"].replace("_", "")
     model = config["model"]["name"]
 
-    run_name = f"{dataset}_{retriever}_{model}_{timestamp}"
+    if has_images:
+        image_method = config["retrieval"]["image"]["method"].replace("_", "")
+        run_name = f"{dataset}_{text_method}_{image_method}_{model}_{timestamp}"
+    else:
+        run_name = f"{dataset}_{text_method}_{model}_{timestamp}"
+
     run_dir = Path(config["output"]["log_dir"]) / run_name
     run_dir.mkdir(parents=True, exist_ok=True)
 
     return run_dir
 
 
-def save_json(data: Any, filepath: str) -> None:
+def save_json(data: Any, filepath: Union[str, Path]) -> None:
     """Save data as JSON."""
     with open(filepath, "w") as f:
         json.dump(data, f, indent=2, default=str)
@@ -54,6 +64,7 @@ class UnifiedSample:
     question: str
     text_corpus: list = field(default_factory=list)  # List[str]
     images: list = field(default_factory=list)  # List[PIL.Image or image path]
+    image_ids: list = field(default_factory=list)  # List[str], one ID per image
     ground_truth: str = ""
     metadata: dict = field(default_factory=dict)  # Dataset-specific extra info
 
@@ -96,6 +107,7 @@ class BenchmarkResult:
     question: str = ""
     ground_truth: str = ""
     predicted_answer: str = ""
+    raw_answer: str = ""
     retrieved_context: dict = field(default_factory=dict)
     attribution: dict = field(default_factory=dict)
     metrics: dict = field(default_factory=dict)

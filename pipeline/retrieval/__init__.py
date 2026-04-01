@@ -2,4 +2,7 @@ from pipeline.retrieval.base import BaseRetriever, HybridRetriever, register_ret
 from pipeline.retrieval.bm25 import BM25Retriever
 from pipeline.retrieval.dense import DenseRetriever
 from pipeline.retrieval.clip_retriever import CLIPRetriever
+from pipeline.retrieval.dense_qdrant import DenseQdrantRetriever
+from pipeline.retrieval.clip_qdrant import CLIPQdrantRetriever
+from pipeline.retrieval.bm25_elastic import BM25ElasticRetriever
 

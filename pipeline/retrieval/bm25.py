@@ -1,6 +1,6 @@
 """BM25 sparse text retrieval module."""
 
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from rank_bm25 import BM25Okapi
 from pipeline.retrieval.base import BaseRetriever, register_retriever
 from pipeline.utils import RetrievalResult
@@ -17,21 +17,21 @@ class BM25Retriever(BaseRetriever):
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
         self.bm25 = None
-        self.corpus = []
+        self.corpus: List[str] = []
 
     def _tokenize(self, text: str) -> List[str]:
         """Simple whitespace tokenization with lowercasing."""
         return text.lower().split()
 
-    def index(self, corpus: List[str], corpus_ids: List[str] = None) -> None:
+    def index(self, corpus: List[str], corpus_ids: Optional[List[str]] = None) -> None:
         """Build BM25 index from text corpus."""
         self.corpus = corpus
         self.corpus_ids = corpus_ids or [f"chunk_{i}" for i in range(len(corpus))]
         tokenized_corpus = [self._tokenize(doc) for doc in corpus]
         self.bm25 = BM25Okapi(tokenized_corpus)
 
-    def retrieve(self, query: str, top_k: int = 5) -> RetrievalResult:
-        """Retrieve top-k text chunks using BM25 scoring."""
+    def retrieve(self, query: str, top_k: int = 5, query_image: Optional[Any] = None) -> RetrievalResult:
+        """Retrieve top-k text chunks using BM25 scoring. query_image is ignored."""
         if self.bm25 is None:
             raise RuntimeError("Index not built. Call index() first.")
 

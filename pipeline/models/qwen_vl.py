@@ -1,6 +1,7 @@
 """Qwen-VL multimodal model wrapper."""
 
-from typing import Dict, List, Any
+import re
+from typing import Dict, List, Any, Optional
 from PIL import Image
 from pipeline.models.base import BaseModel, register_model
 from pipeline.utils import ModelResult
@@ -27,31 +28,48 @@ class QwenVLModel(BaseModel):
             self.model_id, torch_dtype="auto", device_map="auto"
         )
 
-    def _build_prompt(self, question: str, text_context: List[str], has_images: bool = False) -> str:
-        context_str = "\n\n".join(
-            [f"[Document {i+1}]: {chunk}" for i, chunk in enumerate(text_context)]
+    def _build_prompt(self, question: str, text_context: List[str], text_ids: Optional[List[str]] = None, has_images: bool = False) -> str:
+        """Build the text portion of the prompt. Images are interleaved in run_model."""
+        has_text = len(text_context) > 0
+
+        citation_instruction = (
+            "Answer in as few words as possible — ideally a single word, name, number, or short phrase. "
+            "Do not write a full sentence. No inline citations or brackets in the answer.\n"
+            "On a new line, list ONLY the exact source IDs you used, in this format:\n"
+            "Sources: [id1, id2, ...]"
         )
-        
-        if has_images and text_context:
+
+        if has_text:
+            if text_ids:
+                context_str = "\n\n".join(
+                    [f"[{text_ids[i]}]: {chunk}" for i, chunk in enumerate(text_context)]
+                )
+            else:
+                context_str = "\n\n".join(
+                    [f"[doc_{i}]: {chunk}" for i, chunk in enumerate(text_context)]
+                )
+
+        if has_text and has_images:
             return (
-                f"Answer the following question based on the provided text and images.\n\n"
+                f"Answer the following question based on the provided text and labeled images below.\n\n"
                 f"Text Context:\n{context_str}\n\n"
-                f"Images are also provided for reference.\n\n"
                 f"Question: {question}\n\n"
-                f"Provide a concise answer and cite which document(s) or image(s) you used."
+                f"Each image is preceded by its ID label (e.g. [image_id]:).\n\n"
+                f"{citation_instruction}"
             )
         elif has_images:
             return (
-                f"Answer the following question based on the provided images.\n\n"
+                f"Answer the following question based on the labeled images below.\n\n"
                 f"Question: {question}\n\n"
-                f"Provide a concise answer and cite which image(s) you used."
+                f"Each image is preceded by its ID label (e.g. [image_id]:).\n\n"
+                f"{citation_instruction}"
             )
         else:
             return (
                 f"Answer the following question based on the provided context.\n\n"
                 f"Context:\n{context_str}\n\n"
                 f"Question: {question}\n\n"
-                f"Provide a concise answer and cite which document(s) you used."
+                f"{citation_instruction}"
             )
 
     def run_model(
@@ -59,36 +77,52 @@ class QwenVLModel(BaseModel):
         question: str,
         text_context: List[str],
         image_context: List[Any],
+        text_ids: Optional[List[str]] = None,
+        image_ids: Optional[List[str]] = None,
     ) -> ModelResult:
         """Run Qwen-VL on the question with text and image context."""
         import torch
 
-        prompt = self._build_prompt(question, text_context, has_images=len(image_context) > 0)
+        prompt = self._build_prompt(question, text_context, text_ids=text_ids, has_images=bool(image_context))
 
-        # Build message format for Qwen-VL
-        content = []
-        for img in image_context:
+        # Build message content: interleave [image_id]: label + image before the text prompt
+        content: List[Dict[str, Any]] = []
+        for i, img in enumerate(image_context):
             if isinstance(img, str):
-                content.append({"type": "image", "image": img})
-            elif isinstance(img, Image.Image):
-                content.append({"type": "image", "image": img})
+                img = Image.open(img)
+            img_id = image_ids[i] if image_ids and i < len(image_ids) else f"image_{i}"
+            content.append({"type": "text", "text": f"[{img_id}]:"})
+            content.append({"type": "image", "image": img})
         content.append({"type": "text", "text": prompt})
 
-        messages = [{"role": "user", "content": content}]
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are a precise question-answering assistant. "
+                    "Always follow this exact output format:\n"
+                    "1. Answer: one word, name, number, or short phrase only — no full sentences.\n"
+                    "2. On a new line: Sources: [id1, id2, ...] listing every source ID you used.\n"
+                    "Never skip the Sources line. Never add explanation or extra text."
+                ),
+            },
+            {"role": "user", "content": content},
+        ]
 
         text_input = self.processor.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )
 
+        pil_images = [img for img in image_context if isinstance(img, Image.Image)]
         inputs = self.processor(
             text=[text_input],
-            images=[img for img in image_context if isinstance(img, Image.Image)] or None,
+            images=pil_images if pil_images else None,
             padding=True,
             return_tensors="pt",
         ).to(self.model.device)
 
         with torch.no_grad():
-            output_ids = self.model.generate(
+            output_ids = self.model.generate(  # type: ignore[misc]
                 **inputs, max_new_tokens=self.max_tokens
             )
 
@@ -98,10 +132,19 @@ class QwenVLModel(BaseModel):
             generated_ids, skip_special_tokens=True
         )[0]
 
+        # Parse cited source IDs — handles: Sources: [id1, id2], [id1], [id2], or id1, id2
+        sources: List[str] = []
+        source_match = re.search(r'[Ss]ources:\s*(.+)', answer)
+        if source_match:
+            raw = source_match.group(1).replace('[', '').replace(']', '')
+            sources = [s.strip() for s in raw.split(',') if s.strip()]
+
+        # Strip the entire Sources line so answer metrics aren't polluted by it
+        clean_answer = re.sub(r'\s*[Ss]ources:\s*.+', '', answer).strip()
+
         return ModelResult(
-            answer=answer,
-            sources=[f"doc_{i+1}" for i in range(len(text_context))]
-            + [f"img_{i+1}" for i in range(len(image_context))],
+            answer=clean_answer,
+            sources=sources,
             raw_response=answer,
             metadata={"model": self.model_id},
         )

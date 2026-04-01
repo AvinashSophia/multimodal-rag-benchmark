@@ -1,6 +1,6 @@
 """Multimodal evaluation metrics: VQA accuracy, Cross-modal consistency."""
 
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from pipeline.evaluation.answer_metrics import _normalize_answer
 
 
@@ -68,9 +68,9 @@ def cross_modal_consistency(
 
 def compute_multimodal_metrics(
     prediction: str,
-    ground_truths: List[str] = None,
-    text_only_answer: str = None,
-    image_only_answer: str = None,
+    ground_truths: Optional[List[str]] = None,
+    text_only_answer: Optional[str] = None,
+    image_only_answer: Optional[str] = None,
 ) -> Dict[str, float]:
     """Compute all multimodal metrics.
 

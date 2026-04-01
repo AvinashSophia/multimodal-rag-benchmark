@@ -2,7 +2,7 @@
 
 import re
 import string
-from typing import Dict, List
+from typing import Dict, List, Optional
 from collections import Counter
 
 
@@ -72,7 +72,7 @@ def f1_score(prediction: str, ground_truth: str) -> float:
 def compute_answer_metrics(
     prediction: str,
     ground_truth: str,
-    all_ground_truths: List[str] = None,
+    all_ground_truths: Optional[List[str]] = None,
 ) -> Dict[str, float]:
     """Compute all answer quality metrics.
 
