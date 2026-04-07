@@ -1,0 +1,273 @@
+{
+  "page_id": "altumint_tm002_04_flvm_configuration_instructions_p01",
+  "doc_id": "altumint_tm002_04_flvm_configuration_instructions",
+  "source_file": "Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+  "page_no": 1,
+  "text_blocks": [
+    {
+      "text": "TM002(04) FLVM Configuration Instructions",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 728.6492604521143,
+        "r": 338.87393307725216,
+        "b": 715.5635072728985,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Purpose",
+      "label": "text",
+      "bbox": {
+        "l": 68.63999713999999,
+        "t": 693.0867228713868,
+        "r": 100.52074667363539,
+        "b": 685.4173155139104,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Materials Required",
+      "label": "text",
+      "bbox": {
+        "l": 68.63999713999999,
+        "t": 677.2767235301368,
+        "r": 139.9253344397775,
+        "b": 669.6073161726604,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Procedure",
+      "label": "text",
+      "bbox": {
+        "l": 68.63999713999999,
+        "t": 660.9567242101368,
+        "r": 108.23627849615488,
+        "b": 653.2873168526603,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Camera",
+      "label": "text",
+      "bbox": {
+        "l": 80.87999663,
+        "t": 647.1867247838868,
+        "r": 110.75660562214125,
+        "b": 639.5173174264104,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Web Relay",
+      "label": "text",
+      "bbox": {
+        "l": 80.87999663,
+        "t": 630.8667254638867,
+        "r": 121.13678920963358,
+        "b": 623.1973181064103,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Modem",
+      "label": "text",
+      "bbox": {
+        "l": 80.87999663,
+        "t": 615.0567261226367,
+        "r": 109.83843292339844,
+        "b": 607.3873187651603,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Solar Controller",
+      "label": "text",
+      "bbox": {
+        "l": 80.87999663,
+        "t": 598.7367268026368,
+        "r": 140.31314954161854,
+        "b": 591.0673194451604,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Testing",
+      "label": "text",
+      "bbox": {
+        "l": 80.87999663,
+        "t": 582.9267274613868,
+        "r": 108.76397465816754,
+        "b": 575.2573201039104,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Finishing Up",
+      "label": "text",
+      "bbox": {
+        "l": 80.87999663,
+        "t": 567.1167281201367,
+        "r": 128.32194777825197,
+        "b": 559.4473207626604,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Purpose",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 533.6140625238937,
+        "r": 110.07598049515687,
+        "b": 520.5858142386124,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "The instructions contain info for configuring the web relay, modem, camera, and solar controller as part of the Flashing Light Video Monitor. FLVM Configuration Instructions 2-5-2026.docx",
+      "label": "text",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 505.74141817744146,
+        "r": 550.6734870562707,
+        "b": 475.7183569284024,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Materials Required",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 449.4640660301437,
+        "r": 176.84430422976823,
+        "b": 436.4358177448624,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Laptop or PC with Google Chrome Browser",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 425.7144532480679,
+        "r": 292.25702093062364,
+        "b": 414.53718476351384,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "CAT5 cable",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 403.7844541618179,
+        "r": 128.54775909184315,
+        "b": 392.60718567726383,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "QTY 4 - Tycon TSBAT12-10L-WT Lithium Battery",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 382.36445505431794,
+        "r": 320.419790039175,
+        "b": 371.1871865697638,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Android or iPhone cell phone",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 360.9444559468179,
+        "r": 218.37793323591907,
+        "b": 349.76718746226385,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Procedure",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 322.98407130014374,
+        "r": 123.15428602422747,
+        "b": 309.9558230148624,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Connect batteries to the battery spade connectors",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 299.2344585180679,
+        "r": 330.0539896197498,
+        "b": 288.0571900335138,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Turn BATT breaker to on (up) position",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 277.8144594105679,
+        "r": 263.0971183766196,
+        "b": 266.6371909260138,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Turn LOAD breaker to on (up) position",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 255.88446032431784,
+        "r": 264.70755290851815,
+        "b": 244.70719183976382,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Camera",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 228.47674223013678,
+        "r": 86.94854191614394,
+        "b": 220.80733487266036,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Remove camera from box and connect it to the CAT5 cable that is coming out of the POE injector.",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 209.4744622580679,
+        "r": 528.978914670211,
+        "b": 178.89836929590228,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p01_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 1 of Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "TM002(04) FLVM Configuration Instructions Purpose Materials Required Procedure Camera Web Relay Modem Solar Controller Testing Finishing Up Purpose The instructions contain info for configuring the web relay, modem, camera, and solar controller as part of the Flashing Light Video Monitor. FLVM Configuration Instructions 2-5-2026.docx Materials Required Laptop or PC with Google Chrome Browser CAT5 cable QTY 4 - Tycon TSBAT12-10L-WT Lithium Battery Android or iPhone cell phone Procedure Connect batteries to the battery spade connectors Turn BATT breaker to on (up) position Turn LOAD breaker to on (up) position Camera Remove camera from box and connect it to the CAT5 cable that is coming out of the POE injector."
+}

@@ -1,0 +1,106 @@
+{
+  "page_id": "altumint_tm002_04_flvm_configuration_instructions_p03",
+  "doc_id": "altumint_tm002_04_flvm_configuration_instructions",
+  "source_file": "Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+  "page_no": 3,
+  "text_blocks": [
+    {
+      "text": "Navigate to System > Users . Click the 'Add Userʼ button and create an account with the following credentials:",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 510.374449720568,
+        "r": 519.5779346119185,
+        "b": 479.7983567584024,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "User: admin",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 462.3914199836913,
+        "r": 331.1386614505555,
+        "b": 451.74835792715226,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Pass: 0p T o4600",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 433.8314211736913,
+        "r": 349.73689488462907,
+        "b": 423.18835911715223,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Navigate to System > Network. Turn off the slides for Bonj our and UPnP .",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 188.56446312931803,
+        "r": 446.7077651871757,
+        "b": 177.3683693596522,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p03_fig_00.png",
+      "width": 420.0,
+      "height": 400.0,
+      "bbox": {
+        "l": 201.51390075683594,
+        "t": 753.5149917602539,
+        "r": 411.3315734863281,
+        "b": 553.4158477783203,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p03_fig_01.png",
+      "width": 350.0,
+      "height": 356.0,
+      "bbox": {
+        "l": 218.39144897460938,
+        "t": 408.47607421875,
+        "r": 393.36236572265625,
+        "b": 230.3582763671875,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p03_fig_02.png",
+      "width": 598.0,
+      "height": 110.0,
+      "bbox": {
+        "l": 156.87310791015625,
+        "t": 160.8988037109375,
+        "r": 455.9083251953125,
+        "b": 106.0968017578125,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p03_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 3 of Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Navigate to System > Users . Click the 'Add Userʼ button and create an account with the following credentials: User: admin Pass: 0p T o4600 Navigate to System > Network. Turn off the slides for Bonj our and UPnP ."
+}

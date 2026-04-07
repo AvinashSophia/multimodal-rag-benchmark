@@ -1,0 +1,191 @@
+{
+  "page_id": "altumint_tm002_04_flvm_configuration_instructions_p05",
+  "doc_id": "altumint_tm002_04_flvm_configuration_instructions",
+  "source_file": "Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+  "page_no": 5,
+  "text_blocks": [
+    {
+      "text": "Navigate to the I/O Ports Labels page",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 751.0944396905679,
+        "r": 263.67887428137976,
+        "b": 739.9171712060138,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Change P5.1 to Camera",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 725.0414090399413,
+        "r": 220.59071344271993,
+        "b": 714.3983469834025,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Click Save.",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 699.0314101236913,
+        "r": 153.78598610725035,
+        "b": 688.3883480671525,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Navigate to the SNMP Settings page",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 565.964447404318,
+        "r": 257.6859701520841,
+        "b": 554.7871789197638,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Change the Read-only Community string to altro",
+      "label": "list_item",
+      "bbox": {
+        "l": 69.99468458355469,
+        "t": 546.5844482118177,
+        "r": 347.68828173298766,
+        "b": 535.4071797272641,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Change the Read-write Community string altrw",
+      "label": "list_item",
+      "bbox": {
+        "l": 69.99468458355469,
+        "t": 525.164449104318,
+        "r": 340.9650162221237,
+        "b": 513.9871806197639,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Click Save",
+      "label": "list_item",
+      "bbox": {
+        "l": 70.54452831064452,
+        "t": 503.23445001806795,
+        "r": 150.37809428824582,
+        "b": 492.0571815335138,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Navigate to the Network Settings page",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 298.2144585605679,
+        "r": 269.02195234975153,
+        "b": 287.03719007601376,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Change IP Address to 192.168.0.200",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 271.6514279311914,
+        "r": 287.5900166840822,
+        "b": 261.0271911597638,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Change Gateway to 192.168.0.1",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 246.1514289936913,
+        "r": 255.5111053837034,
+        "b": 235.5271922222637,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Change subnet mask to 255.255.255.0",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 220.6514300561912,
+        "r": 297.36775014867663,
+        "b": 210.02719328476405,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Click Save.",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 194.64143113994123,
+        "r": 156.8303675364011,
+        "b": 183.9983690834024,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Click OK if prompted to reboot.",
+      "label": "list_item",
+      "bbox": {
+        "l": 71.6999970125,
+        "t": 169.14143220244114,
+        "r": 257.0574565312722,
+        "b": 158.4983701459023,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p05_fig_00.png",
+      "width": 255.0,
+      "height": 136.0,
+      "bbox": {
+        "l": 239.96853637695312,
+        "t": 651.1868286132812,
+        "r": 367.599609375,
+        "b": 583.011962890625,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p05_fig_01.png",
+      "width": 338.0,
+      "height": 273.0,
+      "bbox": {
+        "l": 221.75782775878906,
+        "t": 477.7817077636719,
+        "r": 391.095458984375,
+        "b": 341.28326416015625,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p05_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 5 of Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Navigate to the I/O Ports Labels page Change P5.1 to Camera Click Save. Navigate to the SNMP Settings page Change the Read-only Community string to altro Change the Read-write Community string altrw Click Save Navigate to the Network Settings page Change IP Address to 192.168.0.200 Change Gateway to 192.168.0.1 Change subnet mask to 255.255.255.0 Click Save. Click OK if prompted to reboot."
+}

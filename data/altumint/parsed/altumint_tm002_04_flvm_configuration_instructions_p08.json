@@ -1,0 +1,92 @@
+{
+  "page_id": "altumint_tm002_04_flvm_configuration_instructions_p08",
+  "doc_id": "altumint_tm002_04_flvm_configuration_instructions",
+  "source_file": "Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+  "page_no": 8,
+  "text_blocks": [
+    {
+      "text": "Tap the Settings Gear > Battery.",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 726.6144407105667,
+        "r": 233.80831822398628,
+        "b": 715.4183469409018,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Under Battery Preset, tap Select Preset, scroll down to select Smart Lithium (LiFePO4) and tap OK.",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 458.86445186681703,
+        "r": 536.8428737755461,
+        "b": 427.77835892590156,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Return to the Settings screen. Select Load Output .",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 147.25446485056636,
+        "r": 328.82366072401356,
+        "b": 136.05837108090145,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Confirm that under the Operation Mode menu the BatteryLife option is selected.",
+      "label": "list_item",
+      "bbox": {
+        "l": 57.754685093554684,
+        "t": 125.83446574306708,
+        "r": 482.4950421890392,
+        "b": 114.63837197340217,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p08_fig_00.png",
+      "width": 383.0,
+      "height": 401.0,
+      "bbox": {
+        "l": 210.1329345703125,
+        "t": 700.4299850463867,
+        "r": 401.7413330078125,
+        "b": 500.2088623046875,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p08_fig_01.png",
+      "width": 541.0,
+      "height": 335.0,
+      "bbox": {
+        "l": 170.37161254882812,
+        "t": 385.0928955078125,
+        "r": 441.17010498046875,
+        "b": 217.42596435546875,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm002_04_flvm_configuration_instructions_p08_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 8 of Altumint-TM002(04) FLVM Configuration Instructions-240326-200948.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Tap the Settings Gear > Battery. Under Battery Preset, tap Select Preset, scroll down to select Smart Lithium (LiFePO4) and tap OK. Return to the Settings screen. Select Load Output . Confirm that under the Operation Mode menu the BatteryLife option is selected."
+}

@@ -45,7 +45,8 @@ class GeminiVertexModel(BaseModel):
             system_instruction=(
                 "You are a precise question-answering assistant. "
                 "Always follow this exact output format:\n"
-                "1. Answer: one word, name, number, or short phrase only — no full sentences.\n"
+                "1. Answer: the exact name, number, value, or short phrase from the source — "
+                "no full sentences, no truncation of product names or multi-word values.\n"
                 "2. On a new line: Sources: [id1, id2, ...] listing every source ID you used.\n"
                 "Never skip the Sources line. Never add explanation or extra text."
             ),
@@ -56,8 +57,9 @@ class GeminiVertexModel(BaseModel):
         has_text = len(text_context) > 0
 
         citation_instruction = (
-            "Answer in as few words as possible — ideally a single word, name, number, or short phrase. "
-            "Do not write a full sentence. No inline citations or brackets in the answer.\n"
+            "Answer concisely with the exact name, number, value, or short phrase as it appears in the source. "
+            "Do not write a full sentence. Do not truncate product names, part names, or multi-word values. "
+            "No inline citations or brackets in the answer.\n"
             "On a new line, list ONLY the exact source IDs you used, in this format:\n"
             "Sources: [id1, id2, ...]"
         )

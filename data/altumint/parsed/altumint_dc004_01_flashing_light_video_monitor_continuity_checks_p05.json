@@ -1,0 +1,135 @@
+{
+  "page_id": "altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p05",
+  "doc_id": "altumint_dc004_01_flashing_light_video_monitor_continuity_checks",
+  "source_file": "Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf",
+  "page_no": 5,
+  "text_blocks": [],
+  "tables": [
+    {
+      "headers": [],
+      "rows": [
+        [
+          "",
+          "",
+          "",
+          "Screw",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "BATT CB",
+          "Top Screw",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "Botto m Screw",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "LOAD CB",
+          "Top Screw",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "Botto m Screw",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "Pigtail",
+          "PV +",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "PV -",
+          "0",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "PoE Injector",
+          "VIN2+",
+          "Web Relay",
+          "RLY 1, NO",
+          "0",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "RLY1, C",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "VIN-",
+          "",
+          "RLY 1, NO",
+          "OL",
+          "Ω",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "RLY1, C",
+          "OL",
+          "Ω",
+          "Ω"
+        ]
+      ],
+      "markdown": "|              |       |           | Screw         |    |   |   |\n|              |       | BATT CB   | Top Screw     | OL | Ω | Ω |\n|              |       |           | Botto m Screw | OL | Ω | Ω |\n|              |       | LOAD CB   | Top Screw     | OL | Ω | Ω |\n|              |       |           | Botto m Screw | OL | Ω | Ω |\n|              |       | Pigtail   | PV +          | OL | Ω | Ω |\n|              |       |           | PV -          | 0  | Ω | Ω |\n| PoE Injector | VIN2+ | Web Relay | RLY 1, NO     | 0  | Ω | Ω |\n|              |       |           | RLY1, C       | OL | Ω | Ω |\n|              | VIN-  |           | RLY 1, NO     | OL | Ω | Ω |\n|              |       |           | RLY1, C       | OL | Ω | Ω |",
+      "summary": "Table on page 5 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf with 11 rows and 7 columns. Columns: , ... (7 total).",
+      "image_path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p05_tbl_00.png"
+    }
+  ],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p05_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 5 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf",
+      "label": "page_screenshot"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p05_tbl_00.png",
+      "width": 1875,
+      "height": 825,
+      "bbox": {},
+      "caption": "Table on page 5 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf with 11 rows and 7 columns. Columns: , ... (7 total).",
+      "label": "table_image"
+    }
+  ],
+  "full_text": ""
+}

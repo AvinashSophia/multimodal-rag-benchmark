@@ -106,6 +106,8 @@ def run_benchmark(config: Dict[str, Any]) -> None:
                     relevant_texts.append(doc)
                     # Extract title as ID — matches corpus_ids assigned by get_corpus()
                     relevant_text_ids.append(doc.split("]")[0].replace("[", "").strip())
+        elif "relevant_text_ids" in sample.metadata:
+            relevant_text_ids = list(sample.metadata["relevant_text_ids"])
 
         if sample.images:
             relevant_images = sample.images

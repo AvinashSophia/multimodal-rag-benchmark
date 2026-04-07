@@ -1,0 +1,84 @@
+{
+  "page_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p08",
+  "doc_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions",
+  "source_file": "Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+  "page_no": 8,
+  "text_blocks": [
+    {
+      "text": "Complete power wiring for Netgear switch with one of the barrel jack connectors. Connect the barrel jack into the netgear switch and the other end to the distribution block (the wire you marked with red goes into the + distribution block and the other goes in the - distribution block).",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 563.3714157761906,
+        "r": 552.9901581347425,
+        "b": 513.4583553559014,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Complete power wiring for PoE Injector . Leave extra slack in the PoE injector positive wire as it will be split for the web relay later.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 241.5614291849406,
+        "r": 541.5589653670424,
+        "b": 211.538367935902,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p08_fig_00.png",
+      "width": 376.0,
+      "height": 295.0,
+      "bbox": {
+        "l": 211.9764404296875,
+        "t": 756.398624420166,
+        "r": 399.9736328125,
+        "b": 609.0227813720703,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p08_fig_01.png",
+      "width": 299.0,
+      "height": 421.0,
+      "bbox": {
+        "l": 231.04061889648438,
+        "t": 498.3773193359375,
+        "r": 380.7281799316406,
+        "b": 287.7892150878906,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p08_fig_02.png",
+      "width": 393.0,
+      "height": 260.0,
+      "bbox": {
+        "l": 207.52938842773438,
+        "t": 196.93609619140625,
+        "r": 403.9200134277344,
+        "b": 67.21197509765625,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p08_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 8 of Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Complete power wiring for Netgear switch with one of the barrel jack connectors. Connect the barrel jack into the netgear switch and the other end to the distribution block (the wire you marked with red goes into the + distribution block and the other goes in the - distribution block). Complete power wiring for PoE Injector . Leave extra slack in the PoE injector positive wire as it will be split for the web relay later."
+}

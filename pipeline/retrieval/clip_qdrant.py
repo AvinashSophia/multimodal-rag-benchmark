@@ -45,7 +45,7 @@ class CLIPQdrantRetriever(BaseRetriever):
         self.fusion_alpha: float = image_cfg.get("fusion_alpha", 0.5)
         dataset_name = config.get("dataset", {}).get("name", "default")
         self.collection = f"{qdrant_cfg.get('collection', 'clip_images')}_{dataset_name}"
-        qdrant_path = qdrant_cfg.get("path", "pipeline/outputs/qdrant_store")
+        qdrant_url = config["retrieval"].get("qdrant", {}).get("url", "http://localhost:6333")
 
         self.model, _, self.preprocess = open_clip.create_model_and_transforms(
             self.model_name, pretrained="openai"
@@ -56,7 +56,7 @@ class CLIPQdrantRetriever(BaseRetriever):
         # Detect actual vector size from model
         self.vector_size: int = self.model.visual.output_dim
 
-        self.qdrant = QdrantClient(path=qdrant_path)
+        self.qdrant = QdrantClient(url=qdrant_url)
 
         # In-memory image store: {image_id: PIL.Image}
         # Images are kept in memory since they can't be stored in Qdrant efficiently.

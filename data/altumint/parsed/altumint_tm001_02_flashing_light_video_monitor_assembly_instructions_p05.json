@@ -1,0 +1,95 @@
+{
+  "page_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p05",
+  "doc_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions",
+  "source_file": "Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+  "page_no": 5,
+  "text_blocks": [
+    {
+      "text": "Load the WAGO DIN rail carriers which will function as distribution blocks. Install two (2) 5position WAGOs (PN 221-415) into one carrier (PN 221-501) and a single (1) 5-position WAGO into the second carrier. The WAGOs should audibly snap into the DIN carrier.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 581.2214150324412,
+        "r": 543.8726763546376,
+        "b": 531.3083546121525,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Snap the WAGO distribution blocks onto the left side of the DIN rail. Mark the block with two WAGOs as '+' and the other as '-' using a permanent marker.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 310.4114263161914,
+        "r": 550.9039898596662,
+        "b": 279.87836508840246,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Install QTY eight (8) 2' x 4-40 hex standoffs for web relay and modem mezzanine plate.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 91.11143545369123,
+        "r": 529.9511960716993,
+        "b": 80.46837339715239,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p05_fig_00.png",
+      "width": 318.0,
+      "height": 260.0,
+      "bbox": {
+        "l": 226.66683959960938,
+        "t": 757.0335884094238,
+        "r": 385.28662109375,
+        "b": 627.1032409667969,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p05_fig_01.png",
+      "width": 295.0,
+      "height": 322.0,
+      "bbox": {
+        "l": 231.75042724609375,
+        "t": 517.0849609375,
+        "r": 379.6559753417969,
+        "b": 355.8659362792969,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p05_fig_02.png",
+      "width": 465.0,
+      "height": 257.0,
+      "bbox": {
+        "l": 189.71966552734375,
+        "t": 237.3533935546875,
+        "r": 422.24005126953125,
+        "b": 108.82708740234375,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p05_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 5 of Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Load the WAGO DIN rail carriers which will function as distribution blocks. Install two (2) 5position WAGOs (PN 221-415) into one carrier (PN 221-501) and a single (1) 5-position WAGO into the second carrier. The WAGOs should audibly snap into the DIN carrier. Snap the WAGO distribution blocks onto the left side of the DIN rail. Mark the block with two WAGOs as '+' and the other as '-' using a permanent marker. Install QTY eight (8) 2' x 4-40 hex standoffs for web relay and modem mezzanine plate."
+}

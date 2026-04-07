@@ -1,0 +1,70 @@
+{
+  "page_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p06",
+  "doc_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions",
+  "source_file": "Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+  "page_no": 6,
+  "text_blocks": [
+    {
+      "text": "Complete power wiring for the solar controller BATT input. This includes the BATT+, BATT-, and BATT +_SW wiring from the wiring diagram.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 563.3716557761813,
+        "r": 554.9360719276625,
+        "b": 533.3485945271427,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "15. Complete power wiring for solar controller PV input . This includes the PV +, PV -, and PV+_SW wiring from the wiring diagram. Ensure that you use 10AWG (PN 221-612) WAGO connectors on the PV pigtails. The pigtails should be at least 12' long.",
+      "label": "text",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 271.65166793118124,
+        "r": 525.6475166260192,
+        "b": 221.7386075108925,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p06_fig_00.png",
+      "width": 401.0,
+      "height": 295.0,
+      "bbox": {
+        "l": 205.5344696044922,
+        "t": 756.5971717834473,
+        "r": 405.75067138671875,
+        "b": 609.1491546630859,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p06_fig_01.png",
+      "width": 359.0,
+      "height": 402.0,
+      "bbox": {
+        "l": 215.93589782714844,
+        "t": 518.5643005371094,
+        "r": 395.2524719238281,
+        "b": 317.5971984863281,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p06_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 6 of Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Complete power wiring for the solar controller BATT input. This includes the BATT+, BATT-, and BATT +_SW wiring from the wiring diagram. 15. Complete power wiring for solar controller PV input . This includes the PV +, PV -, and PV+_SW wiring from the wiring diagram. Ensure that you use 10AWG (PN 221-612) WAGO connectors on the PV pigtails. The pigtails should be at least 12' long."
+}

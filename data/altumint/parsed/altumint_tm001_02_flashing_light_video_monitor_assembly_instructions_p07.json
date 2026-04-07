@@ -1,0 +1,70 @@
+{
+  "page_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p07",
+  "doc_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions",
+  "source_file": "Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+  "page_no": 7,
+  "text_blocks": [
+    {
+      "text": "Complete wiring for solar controller LOAD output . This includes the LOAD +, LOAD -, LOAD +_SW, and J+ wiring from the schematic.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 520.0214175824412,
+        "r": 551.1459779645832,
+        "b": 489.48835635465275,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Use a DMM to check the polarity of the two barrel jack connectors. The outside of the barrel jack is negative. Mark the positive wire with a piece of red tape.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 211.98143041744152,
+        "r": 548.929993886916,
+        "b": 181.4483691896521,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p07_fig_00.png",
+      "width": 356.0,
+      "height": 382.0,
+      "bbox": {
+        "l": 216.6577911376953,
+        "t": 757.0410041809082,
+        "r": 394.7207336425781,
+        "b": 565.8024749755859,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p07_fig_01.png",
+      "width": 344.0,
+      "height": 379.0,
+      "bbox": {
+        "l": 219.80052185058594,
+        "t": 447.10455322265625,
+        "r": 392.0252990722656,
+        "b": 257.689697265625,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p07_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 7 of Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "Complete wiring for solar controller LOAD output . This includes the LOAD +, LOAD -, LOAD +_SW, and J+ wiring from the schematic. Use a DMM to check the polarity of the two barrel jack connectors. The outside of the barrel jack is negative. Mark the positive wire with a piece of red tape."
+}

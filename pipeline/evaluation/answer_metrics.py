@@ -1,4 +1,4 @@
-"""Answer quality evaluation metrics: Exact Match, F1."""
+"""Answer quality evaluation metrics: Exact Match, F1, ANLS."""
 
 import re
 import string
@@ -69,6 +69,51 @@ def f1_score(prediction: str, ground_truth: str) -> float:
     return f1
 
 
+def anls_score(prediction: str, ground_truth: str, threshold: float = 0.5) -> float:
+    """Average Normalized Levenshtein Similarity (ANLS).
+
+    Measures character-level similarity between prediction and ground truth.
+    More forgiving than EM for OCR outputs, unit variations, and partial matches.
+    Scores below the threshold are set to 0 to avoid rewarding near-misses on
+    completely wrong answers.
+
+    Standard metric for document VQA tasks (DocVQA, InfographicVQA).
+
+    Args:
+        prediction:   Model's predicted answer.
+        ground_truth: Ground truth answer.
+        threshold:    Minimum similarity to score above 0 (default 0.5).
+
+    Returns:
+        ANLS score between 0 and 1.
+    """
+    pred = _normalize_answer(prediction)
+    gt   = _normalize_answer(ground_truth)
+
+    if not pred and not gt:
+        return 1.0
+    if not pred or not gt:
+        return 0.0
+
+    # Character-level edit distance via dynamic programming
+    len_p, len_g = len(pred), len(gt)
+    dp = list(range(len_g + 1))
+    for i in range(1, len_p + 1):
+        prev = dp[0]
+        dp[0] = i
+        for j in range(1, len_g + 1):
+            temp = dp[j]
+            if pred[i - 1] == gt[j - 1]:
+                dp[j] = prev
+            else:
+                dp[j] = 1 + min(prev, dp[j], dp[j - 1])
+            prev = temp
+
+    edit_dist = dp[len_g]
+    nls = 1.0 - edit_dist / max(len_p, len_g)
+    return nls if nls >= threshold else 0.0
+
+
 def compute_answer_metrics(
     prediction: str,
     ground_truth: str,
@@ -88,13 +133,16 @@ def compute_answer_metrics(
         Dictionary of metric_name -> score.
     """
     if all_ground_truths and len(all_ground_truths) > 1:
-        em = max(exact_match(prediction, gt) for gt in all_ground_truths)
-        f1 = max(f1_score(prediction, gt) for gt in all_ground_truths)
+        em   = max(exact_match(prediction, gt) for gt in all_ground_truths)
+        f1   = max(f1_score(prediction, gt) for gt in all_ground_truths)
+        anls = max(anls_score(prediction, gt) for gt in all_ground_truths)
     else:
-        em = exact_match(prediction, ground_truth)
-        f1 = f1_score(prediction, ground_truth)
+        em   = exact_match(prediction, ground_truth)
+        f1   = f1_score(prediction, ground_truth)
+        anls = anls_score(prediction, ground_truth)
 
     return {
         "exact_match": em,
-        "f1": f1,
+        "f1":          f1,
+        "anls":        anls,
     }

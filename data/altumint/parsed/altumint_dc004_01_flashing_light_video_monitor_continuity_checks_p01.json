@@ -1,0 +1,223 @@
+{
+  "page_id": "altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p01",
+  "doc_id": "altumint_dc004_01_flashing_light_video_monitor_continuity_checks",
+  "source_file": "Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf",
+  "page_no": 1,
+  "text_blocks": [
+    {
+      "text": "DC004(01) Flashing Light Video Monitor Continuity Checks",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 728.6492604521143,
+        "r": 430.92693738571035,
+        "b": 715.5635072728985,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Production_Continuity_Check_1-29-2026.xlsx",
+      "label": "section_header",
+      "bbox": {
+        "l": 67.6199971825,
+        "t": 696.4814102299415,
+        "r": 301.1614105416074,
+        "b": 685.9363799950801,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Production Continuity Checks",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 640.3814125674414,
+        "r": 219.6151438163687,
+        "b": 629.744791916884,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Date :",
+      "label": "text",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 611.8214137574414,
+        "r": 85.06939869744157,
+        "b": 601.184793106884,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "[ i nsert date checked here]",
+      "label": "text",
+      "bbox": {
+        "l": 85.07155895535156,
+        "t": 611.8214137574414,
+        "r": 224.2700142964157,
+        "b": 601.2763835225801,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Checked by :",
+      "label": "text",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 583.7714149261915,
+        "r": 124.0591990438665,
+        "b": 573.134794275634,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "[ i nsert name here]",
+      "label": "text",
+      "bbox": {
+        "l": 124.06265363072254,
+        "t": 583.7714149261915,
+        "r": 221.86101083279078,
+        "b": 573.2263846913302,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [
+    {
+      "headers": [
+        "Device",
+        "Point",
+        "Device",
+        "Point",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        [
+          "FROM",
+          "",
+          "TO",
+          "",
+          "Expect ed",
+          "Units",
+          "Actual",
+          "Units"
+        ],
+        [
+          "Solar Control ler",
+          "Batt +",
+          "Solar Controll er",
+          "Batt -",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "PV +",
+          "",
+          "PV -",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "LOAD +",
+          "",
+          "LOAD -",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "LOAD +",
+          "Distributi on Block",
+          "+",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "-",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "LOAD CB",
+          "Top Screw",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "Botto m Screw",
+          "0",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "PoE Injector",
+          "VIN2 +",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "VIN-",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ]
+      ],
+      "markdown": "| Device            | Point  | Device              | Point         |           |       |        |       |\n| ----------------- | ------ | ------------------- | ------------- | --------- | ----- | ------ | ----- |\n| FROM              |        | TO                  |               | Expect ed | Units | Actual | Units |\n| Solar Control ler | Batt + | Solar Controll er   | Batt -        | OL        | Ω     |        | Ω     |\n|                   | PV +   |                     | PV -          | OL        | Ω     |        | Ω     |\n|                   | LOAD + |                     | LOAD -        | OL        | Ω     |        | Ω     |\n|                   | LOAD + | Distributi on Block | +             | OL        | Ω     |        | Ω     |\n|                   |        |                     | -             | OL        | Ω     |        | Ω     |\n|                   |        | LOAD CB             | Top Screw     | OL        | Ω     |        | Ω     |\n|                   |        |                     | Botto m Screw | 0         | Ω     |        | Ω     |\n|                   |        | PoE Injector        | VIN2 +        | OL        | Ω     |        | Ω     |\n|                   |        |                     | VIN-          | OL        | Ω     |        | Ω     |",
+      "summary": "Table on page 1 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf with 10 rows and 8 columns. Columns: Device, Point, Device, Point, ... (8 total). Sample: Device: FROM, Device: TO.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p01_tbl_00.png"
+    }
+  ],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p01_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 1 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf",
+      "label": "page_screenshot"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p01_tbl_00.png",
+      "width": 2085,
+      "height": 765,
+      "bbox": {},
+      "caption": "Table on page 1 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf with 10 rows and 8 columns. Columns: Device, Point, Device, Point, ... (8 total). Sample: Device: FROM, Device: TO.",
+      "label": "table_image"
+    }
+  ],
+  "full_text": "DC004(01) Flashing Light Video Monitor Continuity Checks Production_Continuity_Check_1-29-2026.xlsx Production Continuity Checks Date : [ i nsert date checked here] Checked by : [ i nsert name here]"
+}

@@ -40,11 +40,11 @@ class DenseQdrantRetriever(BaseRetriever):
         self.model_name = text_cfg.get("model_name", "BAAI/bge-large-en-v1.5")
         dataset_name = config.get("dataset", {}).get("name", "default")
         self.collection = f"{qdrant_cfg.get('collection', 'dense_text')}_{dataset_name}"
-        qdrant_path = qdrant_cfg.get("path", "pipeline/outputs/qdrant_store")
+        qdrant_url = config["retrieval"].get("qdrant", {}).get("url", "http://localhost:6333")
 
         self.encoder = SentenceTransformer(self.model_name)
         self.vector_size: int = self.encoder.get_sentence_embedding_dimension() or 768
-        self.qdrant = QdrantClient(path=qdrant_path)
+        self.qdrant = QdrantClient(url=qdrant_url)
 
     # ------------------------------------------------------------------
     # Helpers

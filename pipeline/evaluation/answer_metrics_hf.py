@@ -10,6 +10,7 @@ Docs: https://huggingface.co/docs/evaluate
 """
 
 from typing import Dict, List, Optional
+from pipeline.evaluation.answer_metrics import anls_score
 
 try:
     import evaluate as hf_evaluate
@@ -63,8 +64,11 @@ def compute_answer_metrics_hf(
 
     scores = _squad_metric.compute(predictions=predictions, references=references)
 
+    anls = max(anls_score(prediction, gt) for gt in answers)
+
     return {
         # SQuAD returns 0-100 scale; normalize to 0-1 to match our convention
         "exact_match": (scores["exact_match"] / 100.0) if scores else 0.0,
         "f1": (scores["f1"] / 100.0) if scores else 0.0,
+        "anls": anls,
     }

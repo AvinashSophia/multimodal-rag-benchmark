@@ -1,0 +1,225 @@
+{
+  "page_id": "altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p03",
+  "doc_id": "altumint_dc004_01_flashing_light_video_monitor_continuity_checks",
+  "source_file": "Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf",
+  "page_no": 3,
+  "text_blocks": [],
+  "tables": [
+    {
+      "headers": [
+        "",
+        "",
+        "",
+        "B-",
+        "OL",
+        "Ω",
+        "",
+        "Ω"
+      ],
+      "rows": [
+        [
+          "",
+          "",
+          "BATT 3",
+          "B+",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "B-",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "BATT 4",
+          "B+",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "B-",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "Distributi on Block",
+          "+",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "-",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "FROM",
+          "",
+          "TO",
+          "",
+          "Expect",
+          "Units",
+          "Actual",
+          "Units"
+        ],
+        [
+          "Device",
+          "Point",
+          "Device",
+          "Point",
+          "ed",
+          "",
+          "",
+          "Ω"
+        ],
+        [
+          "Solar Control ler",
+          "Batt -",
+          "PV CB",
+          "Top Screw",
+          "OL",
+          "Ω",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          "Botto m Screw",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "BATT CB",
+          "Top Screw",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "Botto m Screw",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "LOAD CB",
+          "Top Screw",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "Botto m Screw",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "BATT 1",
+          "B+",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "B-",
+          "0",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "BATT 2",
+          "B+",
+          "OL",
+          "Ω",
+          "",
+          "Ω"
+        ],
+        [
+          "",
+          "",
+          "",
+          "B-",
+          "0",
+          "Ω",
+          "",
+          "Ω"
+        ]
+      ],
+      "markdown": "|                   |        |                     | B-            | OL     | Ω     |        | Ω     |\n| ----------------- | ------ | ------------------- | ------------- | ------ | ----- | ------ | ----- |\n|                   |        | BATT 3              | B+            | OL     | Ω     |        | Ω     |\n|                   |        |                     | B-            | OL     | Ω     |        | Ω     |\n|                   |        | BATT 4              | B+            | OL     | Ω     |        | Ω     |\n|                   |        |                     | B-            | OL     | Ω     |        | Ω     |\n|                   |        | Distributi on Block | +             | OL     | Ω     |        | Ω     |\n|                   |        |                     | -             | OL     | Ω     |        | Ω     |\n| FROM              |        | TO                  |               | Expect | Units | Actual | Units |\n| Device            | Point  | Device              | Point         | ed     |       |        | Ω     |\n| Solar Control ler | Batt - | PV CB               | Top Screw     | OL     | Ω     |        |       |\n|                   |        |                     | Botto m Screw | OL     | Ω     |        | Ω     |\n|                   |        | BATT CB             | Top Screw     | OL     | Ω     |        | Ω     |\n|                   |        |                     | Botto m Screw | OL     | Ω     |        | Ω     |\n|                   |        | LOAD CB             | Top Screw     | OL     | Ω     |        | Ω     |\n|                   |        |                     | Botto m Screw | OL     | Ω     |        | Ω     |\n|                   |        | BATT 1              | B+            | OL     | Ω     |        | Ω     |\n|                   |        |                     | B-            | 0      | Ω     |        | Ω     |\n|                   |        | BATT 2              | B+            | OL     | Ω     |        | Ω     |\n|                   |        |                     | B-            | 0      | Ω     |        | Ω     |",
+      "summary": "Table on page 3 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf with 18 rows and 8 columns. Columns: B-, OL, Ω, ... (8 total). Sample: B-: B+.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p03_tbl_00.png"
+    }
+  ],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p03_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 3 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf",
+      "label": "page_screenshot"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc004_01_flashing_light_video_monitor_continuity_checks_p03_tbl_00.png",
+      "width": 2085,
+      "height": 1244,
+      "bbox": {},
+      "caption": "Table on page 3 of Altumint-DC004(01) Flashing Light Video Monitor Continuity Checks-240326-201724.pdf with 18 rows and 8 columns. Columns: B-, OL, Ω, ... (8 total). Sample: B-: B+.",
+      "label": "table_image"
+    }
+  ],
+  "full_text": ""
+}

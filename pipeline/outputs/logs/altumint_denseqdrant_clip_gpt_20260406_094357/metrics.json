@@ -1,0 +1,13 @@
+{
+  "attribution_accuracy": 0.8,
+  "exact_match": 0.2,
+  "f1": 0.4564102564102564,
+  "faithfulness": 0.4,
+  "image_mrr": 0.3333333333333333,
+  "image_ndcg@5": 0.5,
+  "image_recall@5": 1.0,
+  "text_mrr": 0.7333333333333333,
+  "text_ndcg@5": 0.8,
+  "text_recall@5": 1.0,
+  "vqa_accuracy": 0.06666666666666667
+}

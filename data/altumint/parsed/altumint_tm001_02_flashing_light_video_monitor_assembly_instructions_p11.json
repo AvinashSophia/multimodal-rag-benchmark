@@ -1,0 +1,117 @@
+{
+  "page_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p11",
+  "doc_id": "altumint_tm001_02_flashing_light_video_monitor_assembly_instructions",
+  "source_file": "Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+  "page_no": 11,
+  "text_blocks": [
+    {
+      "text": "TURN OFF ALL BREAKERS.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 750.5418879774206,
+        "r": 218.43916811736764,
+        "b": 739.8988259208818,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "26. Complete continuity check procedure DC004.",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 722.4918891461712,
+        "r": 325.841963902251,
+        "b": 711.8918352400133,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Attach modem to mezzanine plate using QTY two (2) 10-32 socket head cap screws.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 694.4418903149208,
+        "r": 512.1566354451395,
+        "b": 683.798828258382,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Attach modem to 4-40 hex standoffs using QTY four 4-40 socket head cap screws.",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 497.581898517421,
+        "r": 509.9700231842485,
+        "b": 486.93883646088216,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Install CAT5 cables between the modem, web relay, and the Netgear switch. Attach power cable to modem",
+      "label": "list_item",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 274.20190782492136,
+        "r": 543.1513617096924,
+        "b": 243.8271321315815,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p11_fig_00.png",
+      "width": 382.0,
+      "height": 251.0,
+      "bbox": {
+        "l": 209.97122192382812,
+        "t": 668.2983856201172,
+        "r": 401.04791259765625,
+        "b": 542.989501953125,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p11_fig_01.png",
+      "width": 383.0,
+      "height": 304.0,
+      "bbox": {
+        "l": 210.24545288085938,
+        "t": 471.9731140136719,
+        "r": 401.5636291503906,
+        "b": 319.7770690917969,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p11_fig_02.png",
+      "width": 399.0,
+      "height": 269.0,
+      "bbox": {
+        "l": 205.78463745117188,
+        "t": 228.89239501953125,
+        "r": 405.70611572265625,
+        "b": 94.68756103515625,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_tm001_02_flashing_light_video_monitor_assembly_instructions_p11_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 11 of Altumint-TM001(02) Flashing Light Video Monitor Assembly Instructions-240326-194800.pdf",
+      "label": "page_screenshot"
+    }
+  ],
+  "full_text": "TURN OFF ALL BREAKERS. 26. Complete continuity check procedure DC004. Attach modem to mezzanine plate using QTY two (2) 10-32 socket head cap screws. Attach modem to 4-40 hex standoffs using QTY four 4-40 socket head cap screws. Install CAT5 cables between the modem, web relay, and the Netgear switch. Attach power cable to modem"
+}

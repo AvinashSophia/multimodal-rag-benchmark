@@ -1,0 +1,149 @@
+{
+  "page_id": "altumint_dc005_w_flvm_wire_lengths_p02",
+  "doc_id": "altumint_dc005_w_flvm_wire_lengths",
+  "source_file": "Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf",
+  "page_no": 2,
+  "text_blocks": [
+    {
+      "text": "18AWG, 90C, BLACK Wires",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 666.2140569988934,
+        "r": 230.27508089086078,
+        "b": 653.1168139012984,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Modified Pigtail Connectors",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 440.79406639139347,
+        "r": 235.0506342468794,
+        "b": 427.6968232937984,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [
+    {
+      "headers": [],
+      "rows": [
+        [
+          "POE +",
+          "210mm",
+          "1"
+        ],
+        [
+          "J+",
+          "100mm",
+          "1"
+        ]
+      ],
+      "markdown": "| POE + | 210mm | 1 |\n| J+    | 100mm | 1 |",
+      "summary": "Table on page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 2 rows and 3 columns.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_tbl_00.png"
+    },
+    {
+      "headers": [
+        "Name",
+        "Length",
+        "QTY"
+      ],
+      "rows": [
+        [
+          "BATT JUMPER BLACK",
+          "420mm",
+          "4"
+        ],
+        [
+          "BATT -",
+          "180mm",
+          "1"
+        ],
+        [
+          "PV - PIGTAIL",
+          "400mm",
+          "1"
+        ],
+        [
+          "LOAD -",
+          "250mm",
+          "1"
+        ],
+        [
+          "POE -",
+          "300mm",
+          "1"
+        ]
+      ],
+      "markdown": "| Name              | Length | QTY |\n| ----------------- | ------ | --- |\n| BATT JUMPER BLACK | 420mm  | 4   |\n| BATT -            | 180mm  | 1   |\n| PV - PIGTAIL      | 400mm  | 1   |\n| LOAD -            | 250mm  | 1   |\n| POE -             | 300mm  | 1   |",
+      "summary": "Table on page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 5 rows and 3 columns. Columns: Name, Length, QTY. Sample: Name: BATT JUMPER BLACK, Length: 420mm, QTY: 4.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_tbl_01.png"
+    },
+    {
+      "headers": [
+        "Name",
+        "Length",
+        "QTY"
+      ],
+      "rows": [
+        [
+          "Modem Power",
+          "300mm",
+          "1"
+        ],
+        [
+          "Web Relay Barrel Plug",
+          "380mm",
+          "1"
+        ],
+        [
+          "Netgear Barrel Plug",
+          "380mm",
+          "1"
+        ]
+      ],
+      "markdown": "| Name                  | Length | QTY |\n| --------------------- | ------ | --- |\n| Modem Power           | 300mm  | 1   |\n| Web Relay Barrel Plug | 380mm  | 1   |\n| Netgear Barrel Plug   | 380mm  | 1   |",
+      "summary": "Table on page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 3 rows and 3 columns. Columns: Name, Length, QTY. Sample: Name: Modem Power, Length: 300mm, QTY: 1.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_tbl_02.png"
+    }
+  ],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf",
+      "label": "page_screenshot"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_tbl_00.png",
+      "width": 795,
+      "height": 285,
+      "bbox": {},
+      "caption": "Table on page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 2 rows and 3 columns.",
+      "label": "table_image"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_tbl_01.png",
+      "width": 795,
+      "height": 465,
+      "bbox": {},
+      "caption": "Table on page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 5 rows and 3 columns. Columns: Name, Length, QTY. Sample: Name: BATT JUMPER BLACK, Length: 420mm, QTY: 4.",
+      "label": "table_image"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p02_tbl_02.png",
+      "width": 795,
+      "height": 345,
+      "bbox": {},
+      "caption": "Table on page 2 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 3 rows and 3 columns. Columns: Name, Length, QTY. Sample: Name: Modem Power, Length: 300mm, QTY: 1.",
+      "label": "table_image"
+    }
+  ],
+  "full_text": "18AWG, 90C, BLACK Wires Modified Pigtail Connectors"
+}

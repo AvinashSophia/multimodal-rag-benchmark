@@ -2,19 +2,20 @@
 
 # Dataset settings
 dataset:
-  name: "docvqa"  # Options: hotpotqa, docvqa, gqa
+  name: "altumint"  # Options: hotpotqa, docvqa, gqa, altumint
   split: "validation"
-  max_samples: 5  # Limit for quick testing, set null for full dataset
+  max_samples: null  # Limit for quick testing, set null for full dataset
   data_dir: "data/"
 
 # Retrieval settings
 retrieval:
+  qdrant:
+    url: "http://localhost:6333"  # Shared Qdrant server (Docker) for all retrievers
   text:
-    method: "dense_qdrant"  # Options: bm25, dense, dense_qdrant, bm25_elastic
+    method: "hybrid_elastic_qdrant"  # Options: bm25, dense, dense_qdrant, bm25_elastic, hybrid_elastic_qdrant
     model_name: "BAAI/bge-large-en-v1.5"  # For dense/dense_qdrant
     top_k: 5
     qdrant:
-      path: "pipeline/outputs/qdrant_store"
       collection: "dense_text"
     elasticsearch:
       url: "http://localhost:9200"
@@ -22,14 +23,20 @@ retrieval:
       username: ""   # optional, for secured clusters
       password: ""   # optional, for secured clusters
       ca_cert: ""    # optional, for HTTPS with custom CA
+    hybrid_elastic_qdrant:
+      rrf_k: 60          # RRF constant (higher = less steep rank decay)
+      bm25_top_k: 20     # Candidate pool fetched from BM25 before fusion
+      dense_top_k: 20    # Candidate pool fetched from dense before fusion
   image:
-    method: "clip"  # Options: clip, clip_qdrant
+    method: "colpali_qdrant"  # Options: clip, clip_qdrant, colpali_qdrant
     model_name: "ViT-B-32"
     top_k: 5
-    fusion_alpha: 0.5  # Weight for text→image vs image→image fusion (1.0 = text only, 0.0 = image only)
+    fusion_alpha: 0.5  # Weight for text→image vs image→image fusion (clip/clip_qdrant only)
     qdrant:
-      path: "pipeline/outputs/qdrant_store"
       collection: "clip_images"
+    colpali:
+      model_name: "vidore/colpali-v1.3-merged"
+      collection: "colpali_images"
 
 # Model settings
 model:
@@ -56,7 +63,7 @@ model:
 evaluation:
   backend: "production"  # Options: custom (fast, no deps), production (ranx + HF evaluate + RAGAS)
   retrieval_metrics: ["recall_at_k", "mrr", "ndcg"]
-  answer_metrics: ["exact_match", "f1"]
+  answer_metrics: ["exact_match", "f1", "anls"]
   grounding_metrics: ["faithfulness", "attribution_accuracy"]
   multimodal_metrics: ["vqa_accuracy", "cross_modal_consistency"]
   recall_k_values: [5]

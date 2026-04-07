@@ -1,0 +1,174 @@
+{
+  "page_id": "altumint_dc005_w_flvm_wire_lengths_p01",
+  "doc_id": "altumint_dc005_w_flvm_wire_lengths",
+  "source_file": "Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf",
+  "page_no": 1,
+  "text_blocks": [
+    {
+      "text": "DC005[W] FLVM Wire Lengths",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 728.6492604521143,
+        "r": 253.10481751696545,
+        "b": 715.5635072728985,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "The following wire lengths are recommended for the assembly of the Flashing Light View Monitor electronics enclosure. Lengths are permitted to be adjusted by the production team to improve routing and assembly.",
+      "label": "text",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 639.3614126099415,
+        "r": 543.781514878436,
+        "b": 589.9583521684024,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "All names are the same as are used on the wiring diagram. The only exception are the highlighted wires in Figure 1 below. These will be referred to as BATT JUMPER BLACK and BATT JUMPER RED in the wire length table.",
+      "label": "text",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 572.0414154149414,
+        "r": 528.1955580688508,
+        "b": 522.6383549734023,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "Figure 1 - Batt jumper wires",
+      "label": "caption",
+      "bbox": {
+        "l": 255.92952313626944,
+        "t": 378.84704848510705,
+        "r": 356.1485029172783,
+        "b": 369.7307988649508,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    },
+    {
+      "text": "18AWG, 90C, RED Wires",
+      "label": "section_header",
+      "bbox": {
+        "l": 56.399997649999996,
+        "t": 312.2740717463937,
+        "r": 211.8212776147693,
+        "b": 299.1768286487988,
+        "coord_origin": "BOTTOMLEFT"
+      }
+    }
+  ],
+  "tables": [
+    {
+      "headers": [],
+      "rows": [
+        [
+          "altumint.atlassian.net",
+          "Document ID: DC005"
+        ],
+        [
+          "Controlled Document",
+          "Revision: 01"
+        ]
+      ],
+      "markdown": "| altumint.atlassian.net | Document ID: DC005 |\n| Controlled Document    | Revision: 01       |",
+      "summary": "Table on page 1 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 2 rows and 2 columns.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p01_tbl_00.png"
+    },
+    {
+      "headers": [
+        "Name",
+        "Length",
+        "QTY"
+      ],
+      "rows": [
+        [
+          "BATT JUMPER RED",
+          "420mm",
+          "4"
+        ],
+        [
+          "BATT +_SW",
+          "350mm",
+          "1"
+        ],
+        [
+          "LOAD +",
+          "360mm",
+          "1"
+        ],
+        [
+          "BATT +",
+          "180mm",
+          "1"
+        ],
+        [
+          "PV +_SW",
+          "345mm",
+          "1"
+        ],
+        [
+          "PV + PIGTAIL",
+          "400mm",
+          "1"
+        ],
+        [
+          "LOAD+_SW",
+          "140mm",
+          "1"
+        ],
+        [
+          "POE +_SW",
+          "300mm",
+          "1"
+        ]
+      ],
+      "markdown": "| Name            | Length | QTY |\n| --------------- | ------ | --- |\n| BATT JUMPER RED | 420mm  | 4   |\n| BATT +_SW       | 350mm  | 1   |\n| LOAD +          | 360mm  | 1   |\n| BATT +          | 180mm  | 1   |\n| PV +_SW         | 345mm  | 1   |\n| PV + PIGTAIL    | 400mm  | 1   |\n| LOAD+_SW        | 140mm  | 1   |\n| POE +_SW        | 300mm  | 1   |",
+      "summary": "Table on page 1 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 8 rows and 3 columns. Columns: Name, Length, QTY. Sample: Name: BATT JUMPER RED, Length: 420mm, QTY: 4.",
+      "image_path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p01_tbl_01.png"
+    }
+  ],
+  "figures": [
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p01_fig_00.png",
+      "width": 463.0,
+      "height": 246.0,
+      "bbox": {
+        "l": 198.61834716796875,
+        "t": 507.67144775390625,
+        "r": 429.8170471191406,
+        "b": 384.5247497558594,
+        "coord_origin": "BOTTOMLEFT"
+      },
+      "caption": "Figure 1 - Batt jumper wires",
+      "label": "figure"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p01_page.png",
+      "width": 1275,
+      "height": 1650,
+      "bbox": {},
+      "caption": "Full page screenshot — page 1 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf",
+      "label": "page_screenshot"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p01_tbl_00.png",
+      "width": 585,
+      "height": 285,
+      "bbox": {},
+      "caption": "Table on page 1 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 2 rows and 2 columns.",
+      "label": "table_image"
+    },
+    {
+      "path": "data/altumint/parsed/figures/altumint_dc005_w_flvm_wire_lengths_p01_tbl_01.png",
+      "width": 795,
+      "height": 645,
+      "bbox": {},
+      "caption": "Table on page 1 of Altumint-DC005[W] FLVM Wire Lengths-240326-200513.pdf with 8 rows and 3 columns. Columns: Name, Length, QTY. Sample: Name: BATT JUMPER RED, Length: 420mm, QTY: 4.",
+      "label": "table_image"
+    }
+  ],
+  "full_text": "DC005[W] FLVM Wire Lengths The following wire lengths are recommended for the assembly of the Flashing Light View Monitor electronics enclosure. Lengths are permitted to be adjusted by the production team to improve routing and assembly. All names are the same as are used on the wiring diagram. The only exception are the highlighted wires in Figure 1 below. These will be referred to as BATT JUMPER BLACK and BATT JUMPER RED in the wire length table. Figure 1 - Batt jumper wires 18AWG, 90C, RED Wires"
+}
