@@ -50,7 +50,6 @@ class ColPaliQdrantRetriever(BaseRetriever):
 
         image_cfg = config["retrieval"]["image"]
         colpali_cfg = image_cfg.get("colpali", {})
-        qdrant_cfg = image_cfg.get("qdrant", {})
 
         self.model_name = colpali_cfg.get("model_name", "vidore/colpali-v1.2")
         dataset_name = config.get("dataset", {}).get("name", "default")
@@ -188,6 +187,75 @@ class ColPaliQdrantRetriever(BaseRetriever):
 
         print(f"  [ColPaliQdrant] Indexed {len(ids)} pages "
               f"({total_patches} patches) into '{self.collection}'.")
+
+    def generate_heatmap(self, query: str, page_id: str) -> Optional[str]:
+        """Generate a ColPali similarity heatmap for a query + page as a base64 PNG.
+
+        Re-encodes the stored page image and the query through ColPali, computes
+        per-patch similarity scores (MaxSim aggregated across query tokens), and
+        returns a heatmap overlay image as a base64-encoded PNG string.
+
+        Returns None if the page_id is not in the image store.
+        """
+        import torch
+        import base64
+        from io import BytesIO
+        from colpali_engine.interpretability import get_similarity_maps_from_embeddings
+
+        image = self._image_store.get(page_id)
+        if image is None:
+            return None
+
+        pil_image = image.convert("RGB") if hasattr(image, "convert") else Image.open(image).convert("RGB")
+
+        # --- Encode image ---
+        img_batch = self.processor.process_images([pil_image]).to(self.device)
+        with torch.no_grad():
+            image_embeddings = self.model(**img_batch)  # (1, n_tokens, 128)
+
+        image_mask = self.processor.get_image_mask(img_batch)  # (1, n_tokens)
+
+        # Patch grid dimensions from processor
+        patch_size = getattr(self.processor, "patch_size", 14)
+        n_patches = self.processor.get_n_patches(
+            image_size=pil_image.size,
+            patch_size=patch_size,
+        )
+
+        # --- Encode query ---
+        q_batch = self.processor.process_queries([query]).to(self.device)
+        with torch.no_grad():
+            query_embeddings = self.model(**q_batch)  # (1, n_query_tokens, 128)
+
+        # --- Similarity maps: (1, query_tokens, n_patches_x, n_patches_y) ---
+        similarity_maps = get_similarity_maps_from_embeddings(
+            image_embeddings=image_embeddings.float(),
+            query_embeddings=query_embeddings.float(),
+            n_patches=n_patches,
+            image_mask=image_mask,
+        )
+
+        # Aggregate across query tokens: max per patch → (n_patches_x, n_patches_y)
+        aggregated = similarity_maps[0].max(dim=0).values  # (n_x, n_y)
+
+        # --- Render heatmap overlay ---
+        import matplotlib
+        matplotlib.use("Agg")  # non-interactive backend
+        from colpali_engine.interpretability import plot_similarity_map
+
+        fig, _ = plot_similarity_map(
+            image=pil_image,
+            similarity_map=aggregated,
+            figsize=(6, 6),
+            show_colorbar=False,
+        )
+
+        buf = BytesIO()
+        fig.savefig(buf, format="png", bbox_inches="tight", pad_inches=0, dpi=120)
+        import matplotlib.pyplot as plt
+        plt.close(fig)
+        buf.seek(0)
+        return base64.b64encode(buf.getvalue()).decode("utf-8")
 
     def retrieve(self, query: str, top_k: int = 5, query_image: Optional[Any] = None) -> RetrievalResult:
         """Retrieve top-k pages using approximate ColPali MaxSim.

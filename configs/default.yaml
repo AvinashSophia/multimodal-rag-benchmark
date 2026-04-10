@@ -4,7 +4,7 @@
 dataset:
   name: "altumint"  # Options: hotpotqa, docvqa, gqa, altumint
   split: "validation"
-  max_samples: null  # Limit for quick testing, set null for full dataset
+  max_samples: 5  # Limit for quick testing, set null for full dataset
   data_dir: "data/"
 
 # Retrieval settings
@@ -28,7 +28,7 @@ retrieval:
       bm25_top_k: 20     # Candidate pool fetched from BM25 before fusion
       dense_top_k: 20    # Candidate pool fetched from dense before fusion
   image:
-    method: "colpali_qdrant"  # Options: clip, clip_qdrant, colpali_qdrant
+    method: "colpali_qdrant"  # Options: clip, clip_qdrant, colpali_qdrant, colqwen2_qdrant
     model_name: "ViT-B-32"
     top_k: 5
     fusion_alpha: 0.5  # Weight for text→image vs image→image fusion (clip/clip_qdrant only)
@@ -37,10 +37,13 @@ retrieval:
     colpali:
       model_name: "vidore/colpali-v1.3-merged"
       collection: "colpali_images"
+    colqwen2:
+      model_name: "vidore/colqwen2-v1.0-merged"  # Qwen2-VL backbone; stronger than ColPali on doc-heavy benchmarks
+      collection: "colqwen2_images"
 
 # Model settings
 model:
-  name: "gpt"  # Options: gpt, gemini, qwen_vl
+  name: "gemini_vertex"  # Options: gpt, gemini, gemini_vertex, qwen_vl, qwen_vl_aws
   gpt:
     model_id: "gpt-4o"
     max_tokens: 512
@@ -50,14 +53,20 @@ model:
     max_tokens: 512
     temperature: 0.0
   gemini_vertex:
-    project_id: "way-back-home-487418"
+    project_id: "multimodal-rag-benchmark"
     location: "us-central1"
-    model_id: "gemini-2.5-flash-lite-preview-09-2025"
-    max_tokens: 512
+    model_id: "gemini-2.5-flash"
+    max_tokens: 1024  # thinking model — 1024 balances reasoning budget vs latency; increase if answers truncate
     temperature: 0.0
   qwen_vl:
     model_id: "Qwen/Qwen2.5-VL-7B-Instruct"
     max_tokens: 512
+  qwen_vl_aws:
+    base_url: "https://staging.docu-mind.com/v1"  # self-hosted OpenAI-compatible endpoint
+    model_id: "qwen3-vl-8b-instruct"
+    api_key_env: "QWEN_VL_API_KEY"  # env var name; set to "none" if endpoint needs no auth
+    max_tokens: 1024
+    temperature: 0.0
 
 # Evaluation settings
 evaluation:

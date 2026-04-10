@@ -5,6 +5,7 @@ from pipeline.retrieval.clip_retriever import CLIPRetriever
 from pipeline.retrieval.dense_qdrant import DenseQdrantRetriever
 from pipeline.retrieval.clip_qdrant import CLIPQdrantRetriever
 from pipeline.retrieval.colpali_qdrant import ColPaliQdrantRetriever
+from pipeline.retrieval.colqwen2_qdrant import ColQwen2QdrantRetriever
 from pipeline.retrieval.bm25_elastic import BM25ElasticRetriever
 from pipeline.retrieval.hybrid_elastic_qdrant import HybridElasticQdrantRetriever
 

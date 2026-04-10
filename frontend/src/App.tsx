@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { SlidersHorizontal, ChevronUp, ChevronDown } from "lucide-react";
+import { SlidersHorizontal, ChevronUp, ChevronDown, Shield, LogOut } from "lucide-react";
 import { submitQuery, fetchHealth, fetchConfigOptions } from "./api/client";
-import type { QueryRequest, QueryResponse, ConfigOptions } from "./types";
+import type { QueryRequest, QueryResponse, ConfigOptions, User } from "./types";
 import QueryInput from "./components/QueryInput";
 import AnswerPanel from "./components/AnswerPanel";
 import RetrievedChunks from "./components/RetrievedChunks";
@@ -10,8 +10,11 @@ import RetrievedImages from "./components/RetrievedImages";
 import MetricsPanel from "./components/MetricsPanel";
 import StatusBar from "./components/StatusBar";
 import ConfigSelector from "./components/ConfigSelector";
+import LoginPage from "./components/LoginPage";
+import ThinkingOverlay from "./components/ThinkingOverlay";
 
 interface SelectedConfig {
+  dataset: string;
   model: string;
   text_method: string;
   image_method: string;
@@ -19,44 +22,50 @@ interface SelectedConfig {
 
 function defaultConfig(options: ConfigOptions): SelectedConfig {
   return {
+    dataset: options.active_dataset,
     model: options.active_model,
     text_method: options.active_text_method,
     image_method: options.active_image_method,
   };
 }
 
-// SophiaSpatial AI hex logo mark
 function LogoMark() {
   return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <polygon
-        points="16,2 28,9 28,23 16,30 4,23 4,9"
-        fill="url(#hexGrad)"
-        stroke="rgba(255,255,255,0.15)"
-        strokeWidth="0.5"
-      />
-      <path
-        d="M11 13.5 C11 11.6 12.3 10.5 14.2 10.5 C15.4 10.5 16.4 11 17 11.9 L15.6 12.8 C15.3 12.3 14.8 12 14.2 12 C13.3 12 12.7 12.6 12.7 13.5 C12.7 14.4 13.3 15 14.2 15 L14.8 15 L14.8 16.5 L14 16.5 C13 16.5 12.3 17.1 12.3 18.1 C12.3 19.1 13.1 19.7 14.2 19.7 C15 19.7 15.7 19.3 16 18.7 L17.4 19.6 C16.8 20.6 15.6 21.2 14.2 21.2 C12.1 21.2 10.6 20 10.6 18.1 C10.6 17 11.2 16.1 12.1 15.7 C11.4 15.2 11 14.4 11 13.5Z"
-        fill="white"
-        opacity="0.9"
-      />
-      <circle cx="19.5" cy="15.8" r="3" fill="rgba(165,180,252,0.9)" />
-      <circle cx="19.5" cy="15.8" r="1.5" fill="white" />
-      <defs>
-        <linearGradient id="hexGrad" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#4F46E5" />
-          <stop offset="100%" stopColor="#7C3AED" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <img
+      src="https://sophiaspatialai.com/wp-content/uploads/logo.webp"
+      alt="SophiaSpatial AI"
+      className="h-12 w-auto object-contain"
+    />
   );
 }
 
+const USER_KEY = "sophiaspatial_user";
+
+function loadUser(): User | null {
+  try {
+    const raw = localStorage.getItem(USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
 export default function App() {
+  const [user, setUser] = useState<User | null>(loadUser);
   const [result, setResult] = useState<QueryResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedConfig, setSelectedConfig] = useState<SelectedConfig | null>(null);
   const [configOpen, setConfigOpen] = useState(false);
+
+  function handleLogin(u: User) {
+    localStorage.setItem(USER_KEY, JSON.stringify(u));
+    setUser(u);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem(USER_KEY);
+    setUser(null);
+    setResult(null);
+    setError(null);
+  }
 
   const { data: health } = useQuery({
     queryKey: ["health"],
@@ -89,39 +98,88 @@ export default function App() {
     setSelectedConfig((prev) => ({ ...(prev ?? {}), ...partial } as SelectedConfig));
   }
 
+  if (!user) return <LoginPage onLogin={handleLogin} />;
+
   return (
-    <div className="min-h-screen" style={{ background: "#F0F2F7" }}>
+    <div className="min-h-screen" style={{ background: "#09090F" }}>
+      <ThinkingOverlay visible={mutation.isPending} />
+
+      {/* Page content — blurred while query is running */}
+      <div style={{ transition: "filter 0.3s", filter: mutation.isPending ? "blur(3px)" : "none", pointerEvents: mutation.isPending ? "none" : undefined }}>
 
       {/* ── Top Nav ─────────────────────────────────────────────── */}
-      <header style={{ background: "linear-gradient(135deg, #0F0C29 0%, #1a1060 50%, #24243e 100%)" }}
-        className="sticky top-0 z-40 shadow-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+      <header
+        className="sticky top-0 z-40 border-b"
+        style={{
+          background: "rgba(9,9,15,0.85)",
+          backdropFilter: "blur(20px)",
+          borderColor: "rgba(237,203,105,0.12)",
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 
           {/* Brand */}
           <div className="flex items-center gap-3">
             <LogoMark />
             <div>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-2.5">
                 <span className="text-base font-bold tracking-tight text-white">SophiaSpatial</span>
-                <span className="hidden text-sm font-light text-indigo-300 sm:block">AI</span>
+                <span
+                  className="hidden text-xs font-semibold sm:block px-1.5 py-0.5 rounded"
+                  style={{ background: "rgba(237,203,105,0.12)", color: "#EDCB69" }}
+                >
+                  DocuMind
+                </span>
               </div>
-              <p className="text-[10px] font-medium uppercase tracking-widest text-indigo-400">
-                FLVM Intelligence Platform
+              <p className="text-[10px] font-medium uppercase tracking-widest" style={{ color: "rgba(237,203,105,0.5)" }}>
+                Wisdom You Can See™
               </p>
             </div>
           </div>
 
-          {/* Right: status + config toggle */}
+          {/* Right: private badge + status + config toggle + user */}
           <div className="flex items-center gap-3">
+            <div
+              className="hidden sm:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium"
+              style={{ background: "rgba(237,203,105,0.08)", color: "rgba(237,203,105,0.6)", border: "1px solid rgba(237,203,105,0.15)" }}
+            >
+              <Shield size={9} />
+              Private · On-Premises
+            </div>
             <StatusBar health={health} loading={mutation.isPending} />
+            {/* User avatar + logout */}
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center gap-2 rounded-full px-2.5 py-1.5"
+                style={{ background: "rgba(237,203,105,0.08)", border: "1px solid rgba(237,203,105,0.15)" }}
+              >
+                <div
+                  className="flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold"
+                  style={{ background: "rgba(237,203,105,0.2)", color: "#EDCB69" }}
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="hidden text-xs font-medium sm:block" style={{ color: "rgba(237,203,105,0.8)" }}>
+                  {user.name.split(" ")[0]}
+                </span>
+              </div>
+              <button
+                onClick={handleLogout}
+                title="Sign out"
+                className="flex h-7 w-7 items-center justify-center rounded-full transition"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.3)" }}
+              >
+                <LogOut size={12} />
+              </button>
+            </div>
             {configOptions && selectedConfig && (
               <button
                 onClick={() => setConfigOpen((o) => !o)}
-                className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
-                  configOpen
-                    ? "border-indigo-400 bg-indigo-500/20 text-indigo-200"
-                    : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
-                }`}
+                className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all"
+                style={configOpen
+                  ? { background: "rgba(237,203,105,0.15)", border: "1px solid rgba(237,203,105,0.4)", color: "#EDCB69" }
+                  : { background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }
+                }
               >
                 <SlidersHorizontal size={11} />
                 Pipeline
@@ -131,9 +189,12 @@ export default function App() {
           </div>
         </div>
 
-        {/* Config panel — slides open under header */}
+        {/* Config panel */}
         {configOpen && configOptions && selectedConfig && (
-          <div className="border-t border-white/10" style={{ background: "rgba(15,12,41,0.95)" }}>
+          <div
+            className="border-t"
+            style={{ background: "rgba(9,9,15,0.98)", borderColor: "rgba(237,203,105,0.1)" }}
+          >
             <div className="mx-auto max-w-7xl px-6 py-4">
               <ConfigSelector
                 options={configOptions}
@@ -146,15 +207,27 @@ export default function App() {
       </header>
 
       {/* ── Main content ───────────────────────────────────────── */}
-      <main className="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
 
         {/* Hero search card */}
-        <div className="overflow-hidden rounded-2xl bg-white shadow-md">
-          {/* Card top accent */}
-          <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #4F46E5, #7C3AED, #06B6D4)" }} />
+        <div
+          className="overflow-hidden rounded-2xl"
+          style={{
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(237,203,105,0.15)",
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          <div
+            className="h-px w-full"
+            style={{ background: "linear-gradient(90deg, transparent, #EDCB69, #FFE7A2, #EDCB69, transparent)" }}
+          />
           <div className="px-6 py-6">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-indigo-400">
-              Ask the FLVM Knowledge Base
+            <p className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: "rgba(237,203,105,0.7)" }}>
+              DocuMind · FLVM Intelligence
+            </p>
+            <p className="mb-5 text-[11px]" style={{ color: "rgba(255,255,255,0.3)" }}>
+              Ask anything about the FLVM technical documentation
             </p>
             <QueryInput onSubmit={handleSubmit} loading={mutation.isPending} />
           </div>
@@ -162,62 +235,80 @@ export default function App() {
 
         {/* Error */}
         {error && (
-          <div className="mt-4 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            <span className="mt-0.5 text-base">⚠</span>
+          <div
+            className="mt-4 flex items-start gap-3 rounded-xl px-4 py-3 text-sm"
+            style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#FCA5A5" }}
+          >
+            <span className="mt-0.5">⚠</span>
             {error}
-          </div>
-        )}
-
-        {/* Loading skeleton */}
-        {mutation.isPending && !result && (
-          <div className="mt-6 space-y-4">
-            {[80, 60, 40].map((w) => (
-              <div key={w} className="h-4 animate-pulse rounded-full bg-gray-200" style={{ width: `${w}%` }} />
-            ))}
           </div>
         )}
 
         {/* Results */}
         {result && (
           <div className="mt-6 flex flex-col gap-5">
-            {/* Answer + Metrics row */}
-            <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-              <div className="lg:col-span-2">
-                <AnswerPanel result={result} />
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-4">
+              <div className={result.metrics ? "lg:col-span-3" : "lg:col-span-4"}>
+                <AnswerPanel
+                  result={result}
+                  user={user}
+                  config={selectedConfig ? { ...selectedConfig } : undefined}
+                />
               </div>
               {result.metrics && (
-                <MetricsPanel metrics={result.metrics} />
+                <div className="lg:col-span-1">
+                  <MetricsPanel metrics={result.metrics} />
+                </div>
               )}
             </div>
-
-            {/* Evidence row */}
-            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-              <RetrievedChunks chunks={result.retrieved_text} />
-              <RetrievedImages images={result.retrieved_images} />
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+              <div className="lg:col-span-2">
+                <RetrievedChunks chunks={result.retrieved_text} />
+              </div>
+              <RetrievedImages images={result.retrieved_images} dataset={selectedConfig?.dataset ?? "altumint"} query={result.query} />
             </div>
           </div>
         )}
 
         {/* Empty state */}
         {!result && !mutation.isPending && !error && (
-          <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white/60 py-20 text-center">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6366F1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <div
+            className="mt-6 flex flex-col items-center justify-center rounded-2xl py-20 text-center"
+            style={{ border: "1px dashed rgba(237,203,105,0.12)", background: "rgba(237,203,105,0.02)" }}
+          >
+            <div
+              className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl"
+              style={{ background: "rgba(237,203,105,0.08)", border: "1px solid rgba(237,203,105,0.15)" }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#EDCB69" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7">
                 <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
               </svg>
             </div>
-            <p className="text-sm font-medium text-gray-500">Ask a question to explore the FLVM documentation</p>
-            <p className="mt-1 text-xs text-gray-400">
-              Try: <span className="cursor-pointer text-indigo-500 hover:underline">"What wire gauge is used for BATT JUMPER RED?"</span>
+            <p className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Ask a question to explore the FLVM documentation
+            </p>
+            <p className="mt-1 text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>
+              Try:{" "}
+              <span
+                className="cursor-pointer transition-colors hover:underline"
+                style={{ color: "rgba(237,203,105,0.6)" }}
+              >
+                "What wire gauge is used for BATT JUMPER RED?"
+              </span>
             </p>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 py-4 text-center text-xs text-gray-400">
-        SophiaSpatial AI · Multimodal RAG Benchmark · {new Date().getFullYear()}
+      <footer
+        className="border-t py-4 text-center text-xs"
+        style={{ borderColor: "rgba(237,203,105,0.08)", color: "rgba(255,255,255,0.2)" }}
+      >
+        SophiaSpatial AI · DocuMind · {new Date().getFullYear()} · Wisdom You Can See™
       </footer>
+
+      </div>{/* end blur wrapper */}
     </div>
   );
 }

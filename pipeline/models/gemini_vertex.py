@@ -124,25 +124,42 @@ class GeminiVertexModel(BaseModel):
             content.append(f"[{img_id}]:")
             content.append(vertex_img)
 
+        from vertexai.generative_models import HarmCategory, HarmBlockThreshold, SafetySetting
         response = self.model.generate_content(
             content,
             generation_config=GenerationConfig(
                 max_output_tokens=self.max_tokens,
                 temperature=self.temperature,
             ),
+            safety_settings=[
+                SafetySetting(category=HarmCategory.HARM_CATEGORY_HARASSMENT,        threshold=HarmBlockThreshold.BLOCK_NONE),
+                SafetySetting(category=HarmCategory.HARM_CATEGORY_HATE_SPEECH,       threshold=HarmBlockThreshold.BLOCK_NONE),
+                SafetySetting(category=HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold=HarmBlockThreshold.BLOCK_NONE),
+                SafetySetting(category=HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold=HarmBlockThreshold.BLOCK_NONE),
+            ],
         )
 
-        answer = response.text
+        # Gracefully handle blocked responses
+        try:
+            answer: str = response.text or ""
+        except ValueError:
+            return ModelResult(
+                answer="",
+                sources=[],
+                raw_response="[BLOCKED by safety filter]",
+                metadata={"model": self.model_id, "project": self.project_id, "location": self.location},
+            )
 
-        # Parse cited source IDs — handles: Sources: [id1, id2], [id1], [id2], or id1, id2
+        # Parse cited source IDs — handles wrapped IDs (Gemini may insert newlines mid-ID)
+        # [\s\S]+ captures across newlines; re.sub(\s+) collapses any mid-ID whitespace
         sources: List[str] = []
-        source_match = re.search(r'[Ss]ources:\s*(.+)', answer)
+        source_match = re.search(r'[Ss]ources:\s*([\s\S]+)', answer)
         if source_match:
             raw = source_match.group(1).replace('[', '').replace(']', '')
-            sources = [s.strip() for s in raw.split(',') if s.strip()]
+            sources = [re.sub(r'\s+', '', s) for s in raw.split(',') if s.strip()]
 
-        # Strip the entire Sources line so answer metrics aren't polluted by it
-        clean_answer = re.sub(r'\s*[Ss]ources:\s*.+', '', answer).strip()
+        # Strip the entire Sources section (may span multiple lines) from the answer
+        clean_answer = re.sub(r'\s*[Ss]ources:\s*[\s\S]+', '', answer).strip()
 
         return ModelResult(
             answer=clean_answer,

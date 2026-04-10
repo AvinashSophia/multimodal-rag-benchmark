@@ -132,15 +132,16 @@ class GeminiModel(BaseModel):
                 metadata={"model": self.model_id},
             )
 
-        # Parse cited source IDs — handles: Sources: [id1, id2], [id1], [id2], or id1, id2
+        # Parse cited source IDs — handles wrapped IDs (Gemini may insert newlines mid-ID)
+        # [\s\S]+ captures across newlines; re.sub(\s+) collapses any mid-ID whitespace
         sources: List[str] = []
-        source_match = re.search(r'[Ss]ources:\s*(.+)', answer)
+        source_match = re.search(r'[Ss]ources:\s*([\s\S]+)', answer)
         if source_match:
             raw = source_match.group(1).replace('[', '').replace(']', '')
-            sources = [s.strip() for s in raw.split(',') if s.strip()]
+            sources = [re.sub(r'\s+', '', s) for s in raw.split(',') if s.strip()]
 
-        # Strip the entire Sources line so answer metrics aren't polluted by it
-        clean_answer = re.sub(r'\s*[Ss]ources:\s*.+', '', answer).strip()
+        # Strip the entire Sources section (may span multiple lines) from the answer
+        clean_answer = re.sub(r'\s*[Ss]ources:\s*[\s\S]+', '', answer).strip()
 
         return ModelResult(
             answer=clean_answer,

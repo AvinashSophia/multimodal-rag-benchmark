@@ -21,6 +21,7 @@ class QueryRequest(BaseModel):
     model: Optional[str] = None
     text_method: Optional[str] = None
     image_method: Optional[str] = None
+    dataset: Optional[str] = None
 
 
 class RetrievedTextChunk(BaseModel):
@@ -47,6 +48,7 @@ class QueryResponse(BaseModel):
         retrieved_images:       Top-k retrieved image page IDs with scores.
         metrics:                Evaluation metrics — only present if ground_truth was provided.
         latency_ms:             Total end-to-end latency in milliseconds.
+        latency_breakdown:      Per-stage latencies in ms: retrieval_ms, generation_ms, evaluation_ms.
     """
     query: str
     answer: str
@@ -55,6 +57,7 @@ class QueryResponse(BaseModel):
     retrieved_images: List[RetrievedImage]
     metrics: Optional[Dict[str, float]] = None
     latency_ms: float
+    latency_breakdown: Optional[Dict[str, float]] = None
 
 
 class HealthResponse(BaseModel):
@@ -65,6 +68,18 @@ class HealthResponse(BaseModel):
     text_retriever: str
     image_retriever: str
     model: str
+
+
+class FeedbackRequest(BaseModel):
+    """User feedback on a single RAG response."""
+    query: str
+    answer: str
+    rating: str                          # "positive" | "negative"
+    feedback_text: Optional[str] = None
+    sources: List[str] = []
+    config: Optional[dict] = None        # active dataset/model/retrievers
+    user_name: Optional[str] = None
+    user_email: Optional[str] = None
 
 
 class ConfigOptions(BaseModel):

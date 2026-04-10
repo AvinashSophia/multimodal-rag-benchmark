@@ -3,3 +3,4 @@ from pipeline.models.gpt import GPTModel
 from pipeline.models.gemini import GeminiModel
 from pipeline.models.gemini_vertex import GeminiVertexModel
 from pipeline.models.qwen_vl import QwenVLModel
+from pipeline.models.qwen_vl_aws import QwenVLAWSModel

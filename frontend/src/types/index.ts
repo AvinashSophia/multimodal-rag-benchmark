@@ -17,6 +17,7 @@ export interface QueryResponse {
   retrieved_images: RetrievedImage[];
   metrics: Record<string, number> | null;
   latency_ms: number;
+  latency_breakdown: Record<string, number> | null;
 }
 
 export interface QueryRequest {
@@ -26,6 +27,7 @@ export interface QueryRequest {
   model?: string;
   text_method?: string;
   image_method?: string;
+  dataset?: string;
 }
 
 export interface HealthResponse {
@@ -35,6 +37,22 @@ export interface HealthResponse {
   text_retriever: string;
   image_retriever: string;
   model: string;
+}
+
+export interface User {
+  name: string;
+  email: string;
+}
+
+export interface FeedbackRequest {
+  query: string;
+  answer: string;
+  rating: "positive" | "negative";
+  feedback_text?: string;
+  sources?: string[];
+  config?: Record<string, string>;
+  user_name?: string;
+  user_email?: string;
 }
 
 export interface ConfigOptions {

@@ -18,8 +18,28 @@ export async function fetchConfigOptions(): Promise<ConfigOptions> {
   return data;
 }
 
-export function imageUrl(pageId: string): string {
-  // Page screenshots stored at data/altumint/parsed/figures/{page_id}_page.png
+export async function submitFeedback(request: import("../types").FeedbackRequest): Promise<void> {
+  await api.post("/feedback", request);
+}
+
+export async function uploadQueryImage(file: File): Promise<string> {
+  const form = new FormData();
+  form.append("file", file);
+  const { data } = await api.post<{ path: string }>("/upload-query-image", form, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return data.path;
+}
+
+export async function fetchHeatmap(query: string, pageId: string): Promise<string> {
+  const { data } = await api.get<{ heatmap: string }>("/heatmap", {
+    params: { query, page_id: pageId },
+  });
+  return data.heatmap;
+}
+
+export function imageUrl(pageId: string, dataset: string = "altumint"): string {
+  // Page screenshots stored at data/{dataset}/parsed/figures/{page_id}_page.png
   // Served by FastAPI static mount at /images/ → data/
-  return `/images/altumint/parsed/figures/${pageId}_page.png`;
+  return `/images/${dataset}/parsed/figures/${pageId}_page.png`;
 }

@@ -23,8 +23,8 @@ from pipeline.api.schemas import (
 
 _AVAILABLE_DATASETS = ["altumint", "docvqa", "hotpotqa", "gqa"]
 _AVAILABLE_TEXT_METHODS = ["bm25", "dense", "dense_qdrant", "bm25_elastic", "hybrid_elastic_qdrant"]
-_AVAILABLE_IMAGE_METHODS = ["clip", "clip_qdrant", "colpali_qdrant"]
-_AVAILABLE_MODELS = ["gpt", "gemini", "gemini_vertex", "qwen_vl"]
+_AVAILABLE_IMAGE_METHODS = ["clip", "clip_qdrant", "colpali_qdrant", "colqwen2_qdrant"]
+_AVAILABLE_MODELS = ["gpt", "gemini", "gemini_vertex", "qwen_vl", "qwen_vl_aws"]
 
 
 class PipelineService:
@@ -56,6 +56,7 @@ class PipelineService:
         self._active_text_method: str = self.config["retrieval"]["text"]["method"]
         self._active_image_method: str = self.config["retrieval"]["image"]["method"]
         self._active_model: str = self.config["model"]["name"]
+        self._active_dataset: str = self.config["dataset"]["name"]
 
     # ------------------------------------------------------------------
     # Startup
@@ -121,9 +122,9 @@ class PipelineService:
         cfg["retrieval"] = {**self.config["retrieval"]}
         cfg["retrieval"]["image"] = {**self.config["retrieval"]["image"], "method": method}
         image_retriever = get_retriever(cfg, "image") if self._images else None
-        text_retriever = (
-            self._retriever.text_retriever if self._retriever else None
-        )
+        text_retriever = self._retriever.text_retriever if self._retriever else None
+        if text_retriever is None:
+            raise RuntimeError("Cannot swap image retriever: no active text retriever")
         self._retriever = HybridRetriever(text_retriever, image_retriever)
         self._retriever.index(
             self._corpus, self._corpus_ids,
@@ -131,6 +132,39 @@ class PipelineService:
             self._image_ids if self._image_ids else None,
         )
         self._active_image_method = method
+
+    def _swap_dataset(self, dataset_name: str) -> None:
+        """Switch to a different dataset.
+
+        Re-instantiates retrievers with the new dataset config so their
+        collection/index names reflect the new dataset. The skip-if-indexed
+        check inside each retriever's index() will then skip encoding if
+        the collection already exists in Qdrant/Elastic.
+        """
+        print(f"[PipelineService] Swapping dataset: {self._active_dataset} → {dataset_name}")
+        cfg = dict(self.config)
+        cfg["dataset"] = {**self.config["dataset"], "name": dataset_name}
+
+        # Load new dataset corpus
+        dataset = get_dataset(cfg)
+        dataset.load()
+        self._images, self._image_ids = dataset.get_images()
+        self._corpus, self._corpus_ids = dataset.get_corpus()
+
+        # Re-instantiate retrievers with new dataset config so collection names
+        # resolve to e.g. dense_text_hotpotqa instead of dense_text_altumint.
+        text_retriever = get_retriever(cfg, "text")
+        image_retriever = get_retriever(cfg, "image") if self._images else None
+        self._retriever = HybridRetriever(text_retriever, image_retriever)
+
+        # index() is a no-op for Qdrant/Elastic if the collection already exists
+        self._retriever.index(
+            self._corpus, self._corpus_ids,
+            self._images if self._images else None,
+            self._image_ids if self._image_ids else None,
+        )
+        self._active_dataset = dataset_name
+        self.config = cfg
 
     def _swap_model(self, model_name: str) -> None:
         """Swap the generative model."""
@@ -142,6 +176,8 @@ class PipelineService:
 
     def _ensure_config(self, request: "QueryRequest") -> None:
         """Apply per-request config overrides if they differ from active config."""
+        if request.dataset and request.dataset != self._active_dataset:
+            self._swap_dataset(request.dataset)
         if request.text_method and request.text_method != self._active_text_method:
             self._swap_text_retriever(request.text_method)
         if request.image_method and request.image_method != self._active_image_method:
@@ -172,14 +208,17 @@ class PipelineService:
             query_image = Image.open(request.query_image_path).convert("RGB")
 
         # Retrieve
+        t0 = time.monotonic()
         retrieved = self._retriever.retrieve(
             request.query,
             text_top_k=self._text_top_k,
             image_top_k=self._image_top_k,
             query_image=query_image,
         )
+        retrieval_ms = (time.monotonic() - t0) * 1000
 
         # Generate answer
+        t0 = time.monotonic()
         model_result = self._model.run_model(
             question=request.query,
             text_context=retrieved.text_chunks,
@@ -187,17 +226,21 @@ class PipelineService:
             text_ids=retrieved.text_ids,
             image_ids=retrieved.image_ids,
         )
+        generation_ms = (time.monotonic() - t0) * 1000
 
         # Evaluate — only if ground truth is provided
+        t0 = time.monotonic()
         metrics: Optional[Dict[str, float]] = None
         if request.ground_truth is not None:
             metrics = self._evaluator.evaluate_sample(
                 prediction=model_result.answer,
                 ground_truth=request.ground_truth,
+                all_ground_truths=[request.ground_truth],
                 retrieved_texts=retrieved.text_chunks,
                 retrieved_text_ids=retrieved.text_ids or None,
                 used_sources=model_result.sources,
             )
+        evaluation_ms = (time.monotonic() - t0) * 1000
 
         latency_ms = (time.monotonic() - start) * 1000
 
@@ -231,6 +274,11 @@ class PipelineService:
             retrieved_images=retrieved_images,
             metrics=metrics,
             latency_ms=round(latency_ms, 1),
+            latency_breakdown={
+                "retrieval_ms": round(retrieval_ms, 1),
+                "generation_ms": round(generation_ms, 1),
+                "evaluation_ms": round(evaluation_ms, 1),
+            },
         )
 
     # ------------------------------------------------------------------
@@ -239,7 +287,7 @@ class PipelineService:
 
     @property
     def dataset_name(self) -> str:
-        return self.config["dataset"]["name"]
+        return self._active_dataset
 
     @property
     def text_retriever_name(self) -> str:
@@ -248,6 +296,11 @@ class PipelineService:
     @property
     def image_retriever_name(self) -> str:
         return self._active_image_method
+
+    @property
+    def image_retriever(self):
+        """Return the active image retriever instance (or None)."""
+        return self._retriever.image_retriever if self._retriever else None
 
     @property
     def model_name(self) -> str:

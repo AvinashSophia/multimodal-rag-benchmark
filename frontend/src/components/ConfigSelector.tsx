@@ -1,7 +1,8 @@
-import { FileSearch, ImageIcon, Cpu, ChevronDown } from "lucide-react";
+import { FileSearch, ImageIcon, Cpu, ChevronDown, Database } from "lucide-react";
 import type { ConfigOptions } from "../types";
 
 interface SelectedConfig {
+  dataset: string;
   model: string;
   text_method: string;
   image_method: string;
@@ -14,6 +15,10 @@ interface Props {
 }
 
 const LABELS: Record<string, string> = {
+  altumint: "Altumint",
+  docvqa: "DocVQA",
+  hotpotqa: "HotpotQA",
+  gqa: "GQA",
   bm25: "BM25",
   dense: "Dense",
   dense_qdrant: "Dense · Qdrant",
@@ -43,7 +48,10 @@ interface FieldProps {
 function Field({ icon, label, value, choices, onChange }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-indigo-300">
+      <div
+        className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest"
+        style={{ color: "rgba(237,203,105,0.6)" }}
+      >
         {icon}
         {label}
       </div>
@@ -51,15 +59,20 @@ function Field({ icon, label, value, choices, onChange }: FieldProps) {
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-2 pl-3 pr-8 text-sm font-medium text-white/90 transition focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400/50 hover:border-white/20 cursor-pointer"
+          className="w-full appearance-none rounded-lg py-2 pl-3 pr-8 text-sm font-medium transition cursor-pointer outline-none"
+          style={{
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(237,203,105,0.2)",
+            color: "rgba(255,255,255,0.85)",
+          }}
         >
           {(choices ?? []).map((c) => (
-            <option key={c} value={c} className="bg-gray-900 text-white">
+            <option key={c} value={c} style={{ background: "#0A0A0F", color: "white" }}>
               {friendlyLabel(c)}
             </option>
           ))}
         </select>
-        <ChevronDown size={12} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40" />
+        <ChevronDown size={12} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2" style={{ color: "rgba(237,203,105,0.4)" }} />
       </div>
     </div>
   );
@@ -67,7 +80,14 @@ function Field({ icon, label, value, choices, onChange }: FieldProps) {
 
 export default function ConfigSelector({ options, selected, onChange }: Props) {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Field
+        icon={<Database size={10} />}
+        label="Dataset"
+        value={selected.dataset}
+        choices={options.datasets}
+        onChange={(v) => onChange({ dataset: v })}
+      />
       <Field
         icon={<FileSearch size={10} />}
         label="Text Retriever"

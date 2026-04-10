@@ -1,0 +1,14 @@
+{
+  "anls": 0.4333333333333334,
+  "attribution_accuracy": 0.5,
+  "exact_match": 0.2,
+  "f1": 0.4333333333333333,
+  "faithfulness": 0.3,
+  "image_mrr": 0.6,
+  "image_ndcg@5": 0.6934264036172708,
+  "image_recall@5": 1.0,
+  "text_mrr": 0.2733333333333333,
+  "text_ndcg@5": 0.40355651216119987,
+  "text_recall@5": 0.8,
+  "vqa_accuracy": 0.06666666666666667
+}
