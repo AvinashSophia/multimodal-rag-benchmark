@@ -141,9 +141,11 @@ class GPTModel(BaseModel):
         # Strip the entire Sources line so answer metrics aren't polluted by it
         clean_answer = re.sub(r'\s*[Ss]ources:\s*.+', '', answer).strip()
 
+        usage = response.usage
         return ModelResult(
             answer=clean_answer,
             sources=sources,
             raw_response=answer,
-            metadata={"model": self.model_id, "usage": dict(response.usage) if response.usage else {}},
+            metadata={"model": self.model_id},
+            token_usage={"input_tokens": usage.prompt_tokens or 0, "output_tokens": usage.completion_tokens or 0} if usage else {},
         )

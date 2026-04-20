@@ -15,7 +15,6 @@ class BaseDataset(ABC):
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.data_dir = config["dataset"].get("data_dir", "data/")
         self.split = config["dataset"].get("split", "validation")
         self.max_samples = config["dataset"].get("max_samples", None)
         self.samples: List[UnifiedSample] = []
@@ -37,6 +36,18 @@ class BaseDataset(ABC):
     def get_images(self) -> Tuple[List[Any], List[str]]:
         """Return all images and their corresponding IDs for indexing by image retrievers."""
         raise NotImplementedError
+
+    def load_qa_only(self) -> None:
+        """Load only QA pairs without building the full corpus or loading images.
+
+        Override in AWS dataset loaders to skip corpus/image loading entirely —
+        useful for subsequent batch runs where the index already exists and only
+        QA pairs are needed to drive retrieve→evaluate.
+
+        Default falls back to load() for local datasets that don't separate
+        corpus build from QA pair loading.
+        """
+        self.load()
 
     def __len__(self) -> int:
         return len(self.samples)

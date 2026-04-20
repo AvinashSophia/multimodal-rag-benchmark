@@ -97,6 +97,7 @@ class ModelResult:
     sources: list = field(default_factory=list)  # Which chunks/images were used
     raw_response: str = ""  # Full model response for debugging
     metadata: dict = field(default_factory=dict)
+    token_usage: dict = field(default_factory=dict)  # {"input_tokens": int, "output_tokens": int}
 
 
 @dataclass

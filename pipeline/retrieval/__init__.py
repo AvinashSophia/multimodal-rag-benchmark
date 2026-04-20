@@ -1,11 +1,6 @@
 from pipeline.retrieval.base import BaseRetriever, HybridRetriever, register_retriever, get_retriever, RETRIEVER_REGISTRY
-from pipeline.retrieval.bm25 import BM25Retriever
-from pipeline.retrieval.dense import DenseRetriever
-from pipeline.retrieval.clip_retriever import CLIPRetriever
-from pipeline.retrieval.dense_qdrant import DenseQdrantRetriever
-from pipeline.retrieval.clip_qdrant import CLIPQdrantRetriever
-from pipeline.retrieval.colpali_qdrant import ColPaliQdrantRetriever
-from pipeline.retrieval.colqwen2_qdrant import ColQwen2QdrantRetriever
-from pipeline.retrieval.bm25_elastic import BM25ElasticRetriever
-from pipeline.retrieval.hybrid_elastic_qdrant import HybridElasticQdrantRetriever
-
+from pipeline.retrieval.bm25_elastic_aws import BM25ElasticAWSRetriever
+from pipeline.retrieval.dense_qdrant_aws import DenseQdrantAWSRetriever
+from pipeline.retrieval.colpali_qdrant_aws import ColPaliQdrantAWSRetriever
+from pipeline.retrieval.colqwen2_qdrant_aws import ColQwen2QdrantAWSRetriever
+from pipeline.retrieval.hybrid_elastic_qdrant_aws import HybridElasticQdrantAWSRetriever

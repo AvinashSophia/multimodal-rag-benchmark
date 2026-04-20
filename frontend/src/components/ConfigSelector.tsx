@@ -15,22 +15,19 @@ interface Props {
 }
 
 const LABELS: Record<string, string> = {
-  altumint: "Altumint",
-  docvqa: "DocVQA",
-  hotpotqa: "HotpotQA",
-  gqa: "GQA",
-  bm25: "BM25",
-  dense: "Dense",
-  dense_qdrant: "Dense · Qdrant",
-  bm25_elastic: "BM25 · Elastic",
-  hybrid_elastic_qdrant: "Hybrid (Elastic + Qdrant)",
-  clip: "CLIP",
-  clip_qdrant: "CLIP · Qdrant",
-  colpali_qdrant: "ColPali · Qdrant",
+  altumint_aws: "Altumint",
+  docvqa_aws: "DocVQA",
+  hotpotqa_aws: "HotpotQA",
+  gqa_aws: "GQA",
+  bm25_elastic_aws: "BM25 · Elastic",
+  dense_qdrant_aws: "Dense · Qdrant",
+  hybrid_elastic_qdrant_aws: "Hybrid (Elastic + Qdrant)",
+  colpali_qdrant_aws: "ColPali · Qdrant",
+  colqwen2_qdrant_aws: "ColQwen2 · Qdrant",
   gpt: "GPT-4o",
-  gemini: "Gemini 2.5 Pro",
-  gemini_vertex: "Gemini Vertex",
-  qwen_vl: "Qwen-VL",
+  gemini: "Gemini 2.0 Flash",
+  gemini_vertex: "Gemini 2.5 Flash (Vertex)",
+  qwen_vl_aws: "Qwen-VL",
 };
 
 function friendlyLabel(key: string) {

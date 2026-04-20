@@ -31,6 +31,19 @@ export default function StatusBar({ health, loading }: Props) {
     );
   }
 
+  if (!health.index_ready) {
+    return (
+      <div
+        className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
+        style={{ border: "1px solid rgba(248,113,113,0.4)", background: "rgba(248,113,113,0.1)", color: "#F87171" }}
+        title="Index not built — run the batch job before querying"
+      >
+        <span>⚠</span>
+        Index not built
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center gap-2">
       {/* Live indicator */}

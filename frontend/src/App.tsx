@@ -12,6 +12,7 @@ import StatusBar from "./components/StatusBar";
 import ConfigSelector from "./components/ConfigSelector";
 import LoginPage from "./components/LoginPage";
 import ThinkingOverlay from "./components/ThinkingOverlay";
+import StoragePanel from "./components/StoragePanel";
 
 interface SelectedConfig {
   dataset: string;
@@ -229,7 +230,7 @@ export default function App() {
             <p className="mb-5 text-[11px]" style={{ color: "rgba(255,255,255,0.3)" }}>
               Ask anything about the FLVM technical documentation
             </p>
-            <QueryInput onSubmit={handleSubmit} loading={mutation.isPending} />
+            <QueryInput onSubmit={handleSubmit} loading={mutation.isPending || !selectedConfig} />
           </div>
         </div>
 
@@ -265,7 +266,10 @@ export default function App() {
               <div className="lg:col-span-2">
                 <RetrievedChunks chunks={result.retrieved_text} />
               </div>
-              <RetrievedImages images={result.retrieved_images} dataset={selectedConfig?.dataset ?? "altumint"} query={result.query} />
+              <div className="flex flex-col gap-5">
+                <RetrievedImages images={result.retrieved_images} dataset={selectedConfig?.dataset ?? "altumint_aws"} query={result.query} />
+                <StoragePanel refreshKey={result.latency_ms} />
+              </div>
             </div>
           </div>
         )}

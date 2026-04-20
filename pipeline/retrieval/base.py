@@ -38,6 +38,35 @@ class BaseRetriever(ABC):
         """
         raise NotImplementedError
 
+    def is_indexed(self) -> bool:
+        """Return True if this retriever has a valid persistent index.
+
+        Override in Qdrant/Elasticsearch-backed retrievers to check their
+        persistent store. Default returns False (e.g. in-memory BM25).
+        """
+        return False
+
+    def mark_not_applicable(self) -> None:
+        """Mark this retriever as not applicable for the current dataset.
+
+        Called by HybridRetriever.index() when this retriever is skipped because
+        the dataset has no content for this modality (e.g. hotpotqa has no images,
+        docvqa/gqa have no text corpus). Writing a not_applicable sentinel ensures
+        is_indexed() returns True on subsequent runs so the full corpus is not
+        re-loaded from S3 unnecessarily.
+
+        Override in persistent-store retrievers. Default is a no-op.
+        """
+        pass
+
+    def storage_info(self) -> Dict[str, Any]:
+        """Return storage statistics for this retriever's index.
+
+        Override in subclasses to provide accurate stats.
+        Default returns an empty dict (e.g. for retrievers not yet instrumented).
+        """
+        return {}
+
 
 class HybridRetriever:
     """Combines text and image retrievers into a single retrieval call.
@@ -49,17 +78,28 @@ class HybridRetriever:
     def __init__(self, text_retriever: BaseRetriever, image_retriever: Optional[BaseRetriever] = None):
         self.text_retriever = text_retriever
         self.image_retriever = image_retriever
+        # Default True — assumes index already exists (built by batch job).
+        # index() overrides this based on actual corpus content.
+        self._has_text = True
 
     def index(self, text_corpus: List[str], corpus_ids: List[str], images: Optional[List[Any]] = None, image_ids: Optional[List[str]] = None) -> None:
         """Index both text and images."""
         self._has_text = bool(text_corpus)
         if text_corpus:
             self.text_retriever.index(text_corpus, corpus_ids)
+        else:
+            # Dataset has no text corpus (e.g. docvqa, gqa) — mark as not applicable
+            # so is_indexed() returns True on subsequent runs without re-loading corpus.
+            self.text_retriever.mark_not_applicable()
+
         if images and self.image_retriever:
             self.image_retriever.index(images, image_ids)
+        elif self.image_retriever:
+            # Dataset has no images (e.g. hotpotqa) — mark as not applicable.
+            self.image_retriever.mark_not_applicable()
 
     def retrieve(self, query: str, text_top_k: int = 5, image_top_k: int = 5, query_image: Optional[Any] = None) -> RetrievalResult:
-        """Retrieve from both text and image indexes.
+        """Retrieve from both text and image indexes in parallel.
 
         After retrieval, any page ID that appears in both text and image results
         is treated as cross-modal confirmed and boosted to the front of each list.
@@ -72,11 +112,26 @@ class HybridRetriever:
             image_top_k: Number of image results.
             query_image: Optional PIL image for image→image CLIP retrieval.
         """
-        text_result = self.text_retriever.retrieve(query, top_k=text_top_k) if getattr(self, "_has_text", False) else RetrievalResult()
+        from concurrent.futures import ThreadPoolExecutor, as_completed
 
+        text_result = RetrievalResult()
         image_result = RetrievalResult()
-        if self.image_retriever:
-            image_result = self.image_retriever.retrieve(query, top_k=image_top_k, query_image=query_image)
+
+        def _text_retrieve():
+            if getattr(self, "_has_text", False):
+                return self.text_retriever.retrieve(query, top_k=text_top_k)
+            return RetrievalResult()
+
+        def _image_retrieve():
+            if self.image_retriever:
+                return self.image_retriever.retrieve(query, top_k=image_top_k, query_image=query_image)
+            return RetrievalResult()
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            text_future = executor.submit(_text_retrieve)
+            image_future = executor.submit(_image_retrieve)
+            text_result = text_future.result()
+            image_result = image_future.result()
 
         text_result, image_result = self._boost_overlap(text_result, image_result)
 
@@ -147,6 +202,22 @@ class HybridRetriever:
                 metadata=image_result.metadata,
             ),
         )
+
+
+    def is_indexed(self) -> bool:
+        """Return True if both text and image retrievers have valid persistent indices."""
+        text_ok = self.text_retriever.is_indexed() if self.text_retriever else True
+        image_ok = self.image_retriever.is_indexed() if self.image_retriever else True
+        return text_ok and image_ok
+
+    def storage_info(self) -> Dict[str, Any]:
+        """Return combined storage info from text and image retrievers."""
+        info: Dict[str, Any] = {}
+        if self.text_retriever:
+            info["text"] = self.text_retriever.storage_info()
+        if self.image_retriever:
+            info["image"] = self.image_retriever.storage_info()
+        return info
 
 
 # Registry for retrievers

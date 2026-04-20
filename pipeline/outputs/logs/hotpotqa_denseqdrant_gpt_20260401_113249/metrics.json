@@ -1,9 +1,0 @@
-{
-  "attribution_accuracy": 0.8666666666666666,
-  "exact_match": 0.6,
-  "f1": 0.6,
-  "faithfulness": 0.0,
-  "text_mrr": 1.0,
-  "text_ndcg@5": 0.9065735963827292,
-  "text_recall@5": 0.9
-}

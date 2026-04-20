@@ -11,7 +11,7 @@ interface Props {
 
 type ModalContent = { type: "image"; src: string } | { type: "heatmap"; src: string; pageId: string };
 
-export default function RetrievedImages({ images, dataset = "altumint", query = "" }: Props) {
+export default function RetrievedImages({ images, dataset = "altumint_aws", query = "" }: Props) {
   const [modal, setModal] = useState<ModalContent | null>(null);
   const [loadingHeatmap, setLoadingHeatmap] = useState<string | null>(null);
 

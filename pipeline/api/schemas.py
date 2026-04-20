@@ -49,6 +49,9 @@ class QueryResponse(BaseModel):
         metrics:                Evaluation metrics — only present if ground_truth was provided.
         latency_ms:             Total end-to-end latency in milliseconds.
         latency_breakdown:      Per-stage latencies in ms: retrieval_ms, generation_ms, evaluation_ms.
+        token_usage:            Input and output token counts from the model API.
+        cost_usd:               Estimated API cost in USD for this query.
+        storage_info:           Active retriever index stats (vectors, size, collection name).
     """
     query: str
     answer: str
@@ -58,12 +61,16 @@ class QueryResponse(BaseModel):
     metrics: Optional[Dict[str, float]] = None
     latency_ms: float
     latency_breakdown: Optional[Dict[str, float]] = None
+    token_usage: Optional[Dict[str, int]] = None
+    cost_usd: Optional[float] = None
+    storage_info: Optional[Dict] = None
 
 
 class HealthResponse(BaseModel):
     """Health check response."""
     status: str
     initialized: bool
+    index_ready: bool
     dataset: str
     text_retriever: str
     image_retriever: str
@@ -81,6 +88,19 @@ class FeedbackRequest(BaseModel):
     user_name: Optional[str] = None
     user_email: Optional[str] = None
 
+
+class QdrantCollectionStats(BaseModel):
+    """Stats for a single Qdrant collection."""
+    name: str
+    vectors: int
+    dimension: int
+    estimated_mb: float
+    active: bool
+
+class StorageOverview(BaseModel):
+    """All Qdrant collections with active markers."""
+    collections: List[QdrantCollectionStats]
+    active_names: List[str]
 
 class ConfigOptions(BaseModel):
     """Available options for each configurable pipeline component."""

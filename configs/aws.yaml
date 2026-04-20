@@ -1,0 +1,121 @@
+# AWS Benchmark Configuration
+#
+# Uses EKS-hosted services accessed via port-forward to localhost.
+# Run scripts/port-forward-benchmarking.sh before starting the pipeline.
+#
+# All retrieval methods use *_aws variants that call EKS inference services
+# instead of loading model weights locally. Local variants (colpali_qdrant,
+# dense_qdrant, etc.) remain unchanged and still work independently.
+
+# Dataset settings
+dataset:
+  name: "altumint_aws"  # AWS variant — reads from S3. Options: altumint_aws (local: hotpotqa, docvqa, gqa, altumint)
+  s3_prefix: "altumint" # S3 key prefix — matches --dataset arg used in parse_documents_aws.py / generate_qa_aws.py
+  split: "validation"
+  max_samples: 5        # Set null for full dataset
+  data_dir: "data/"     # Unused by altumint_aws (reads from S3), kept for local fallback compatibility
+
+# Retrieval settings
+retrieval:
+  qdrant:
+    url: "http://localhost:6333"  # EKS Qdrant via port-forward (also: gRPC localhost:6334)
+
+  text:
+    method: "hybrid_elastic_qdrant_aws"  # Options: bm25_elastic_aws, dense_qdrant_aws, hybrid_elastic_qdrant_aws
+                                          #          (local: bm25, dense, bm25_elastic, dense_qdrant, hybrid_elastic_qdrant)
+    top_k: 5
+
+    qdrant:
+      collection: "dense_text"            # Collection prefix — dataset name appended automatically
+
+    elasticsearch_aws:                    # Used by bm25_elastic_aws
+      url: "http://localhost:9200"        # EKS Elasticsearch via port-forward
+      index: "bm25_text"                  # Index prefix — dataset name appended automatically
+      username: ""                        # Not required — security disabled on cluster
+      password: ""
+      ca_cert: ""
+
+    dense_qdrant_aws:                     # Used by dense_qdrant_aws
+      base_url: "http://localhost:8112"   # EKS BGE-large TEI service via port-forward
+      vector_size: 1024                   # BAAI/bge-large-en-v1.5 output dimension
+
+    hybrid_elastic_qdrant_aws:            # Used by hybrid_elastic_qdrant_aws
+      rrf_k: 60                           # RRF constant (higher = less steep rank decay)
+      bm25_top_k: 20                      # Candidate pool fetched from BM25 before fusion
+      dense_top_k: 20                     # Candidate pool fetched from dense before fusion
+
+  image:
+    method: "colpali_qdrant_aws"          # Options: colpali_qdrant_aws, colqwen2_qdrant_aws
+                                          #          (local: clip, clip_qdrant, colpali_qdrant, colqwen2_qdrant)
+    top_k: 5
+    fusion_alpha: 0.5                     # CLIP fusion weight (unused for colpali/colqwen2 variants)
+
+    qdrant:
+      collection: "clip_images"           # Used by clip_qdrant only
+
+    colpali_aws:                          # Used by colpali_qdrant_aws
+      base_url: "http://localhost:8110"   # EKS ColPali service via port-forward
+      collection: "colpali_images"        # Collection prefix — dataset name appended automatically
+
+    colqwen2_aws:                         # Used by colqwen2_qdrant_aws
+      base_url: "http://localhost:8111"   # EKS ColQwen2 service via port-forward
+      collection: "colqwen2_images"       # Collection prefix — dataset name appended automatically
+
+# Model settings (unchanged — models are external APIs, not affected by AWS migration)
+model:
+  name: "gemini_vertex"  # Options: gpt, gemini, gemini_vertex, qwen_vl, qwen_vl_aws
+  gpt:
+    model_id: "gpt-4o"
+    max_tokens: 512
+    temperature: 0.0
+  gemini:
+    model_id: "gemini-2.5-pro"
+    max_tokens: 512
+    temperature: 0.0
+  gemini_vertex:
+    project_id: "multimodal-rag-benchmark"
+    location: "us-central1"
+    model_id: "gemini-2.5-flash"
+    max_tokens: 1024
+    temperature: 0.0
+  qwen_vl:
+    model_id: "Qwen/Qwen2.5-VL-7B-Instruct"
+    max_tokens: 512
+  qwen_vl_aws:
+    base_url: "https://staging.docu-mind.com/v1"  # self-hosted OpenAI-compatible endpoint
+    model_id: "qwen3-vl-8b-instruct"
+    api_key_env: "QWEN_VL_API_KEY"
+    max_tokens: 1024
+    temperature: 0.0
+
+# S3 settings
+s3:
+  bucket: "spatial-ai-staging-processing-632872792182"
+  region: "us-west-2"
+  prefixes:
+    datasets: "benchmarking/datasets"   # Input datasets and corpora
+    images:   "benchmarking/images"     # Page images for visual retrieval
+    results:  "benchmarking/results"    # Benchmark run outputs (config, results, metrics)
+    feedback: "benchmarking/feedback"   # Human evaluation feedback
+
+# Evaluation settings (unchanged)
+evaluation:
+  backend: "production"  # Options: custom, production
+  retrieval_metrics: ["recall_at_k", "mrr", "ndcg"]
+  answer_metrics: ["exact_match", "f1", "anls"]
+  grounding_metrics: ["faithfulness", "attribution_accuracy"]
+  multimodal_metrics: ["vqa_accuracy", "cross_modal_consistency"]
+  recall_k_values: [5]
+
+# Output settings
+output:
+  dir: "pipeline/outputs"
+  log_dir: "pipeline/outputs/logs"
+  save_retrieved_context: true
+  save_attribution: true
+
+# Run settings
+run:
+  seed: 42
+  batch_size: 16
+  num_workers: 4

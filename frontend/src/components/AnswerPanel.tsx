@@ -113,6 +113,27 @@ export default function AnswerPanel({ result, user, config }: Props) {
           </div>
         )}
 
+        {/* Cost + token usage */}
+        {(result.token_usage || result.cost_usd !== null) && (
+          <div className="mt-2 flex flex-wrap items-center gap-3 rounded-xl px-3 py-2"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+          >
+            {result.token_usage && (
+              <>
+                <CostStat label="Input" value={`${result.token_usage.input_tokens.toLocaleString()} tokens`} />
+                <CostStat label="Output" value={`${result.token_usage.output_tokens.toLocaleString()} tokens`} />
+              </>
+            )}
+            {result.cost_usd !== null && result.cost_usd !== undefined && (
+              <CostStat
+                label="Cost"
+                value={result.cost_usd === 0 ? "self-hosted" : `$${result.cost_usd.toFixed(4)}`}
+                highlight={result.cost_usd > 0}
+              />
+            )}
+          </div>
+        )}
+
         {/* Feedback section */}
         <div className="mt-5 border-t pt-4" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
           {submitted ? (
@@ -177,6 +198,19 @@ export default function AnswerPanel({ result, user, config }: Props) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Cost stat chip
+// ---------------------------------------------------------------------------
+
+function CostStat({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
+  return (
+    <div className="flex items-center gap-1.5">
+      <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.3)" }}>{label}</span>
+      <span className="text-[10px] font-mono font-semibold" style={{ color: highlight ? "#EDCB69" : "rgba(255,255,255,0.6)" }}>{value}</span>
     </div>
   );
 }

@@ -148,6 +148,7 @@ class GeminiVertexModel(BaseModel):
                 sources=[],
                 raw_response="[BLOCKED by safety filter]",
                 metadata={"model": self.model_id, "project": self.project_id, "location": self.location},
+                token_usage={},
             )
 
         # Parse cited source IDs — handles wrapped IDs (Gemini may insert newlines mid-ID)
@@ -161,9 +162,11 @@ class GeminiVertexModel(BaseModel):
         # Strip the entire Sources section (may span multiple lines) from the answer
         clean_answer = re.sub(r'\s*[Ss]ources:\s*[\s\S]+', '', answer).strip()
 
+        usage = getattr(response, "usage_metadata", None)
         return ModelResult(
             answer=clean_answer,
             sources=sources,
             raw_response=answer,
             metadata={"model": self.model_id, "project": self.project_id, "location": self.location},
+            token_usage={"input_tokens": getattr(usage, "prompt_token_count") or 0, "output_tokens": getattr(usage, "candidates_token_count") or 0} if usage else {},
         )

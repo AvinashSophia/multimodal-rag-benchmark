@@ -38,8 +38,12 @@ export async function fetchHeatmap(query: string, pageId: string): Promise<strin
   return data.heatmap;
 }
 
-export function imageUrl(pageId: string, dataset: string = "altumint"): string {
-  // Page screenshots stored at data/{dataset}/parsed/figures/{page_id}_page.png
-  // Served by FastAPI static mount at /images/ → data/
-  return `/images/${dataset}/parsed/figures/${pageId}_page.png`;
+export async function fetchStorageOverview(): Promise<import("../types/index").StorageOverview> {
+  const { data } = await api.get("/storage");
+  return data;
+}
+
+export function imageUrl(pageId: string, _dataset?: string): string {
+  // Served by /image/{page_id} — works for both local (redirect) and AWS (S3 proxy)
+  return `/image/${pageId}`;
 }

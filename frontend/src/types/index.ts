@@ -18,6 +18,9 @@ export interface QueryResponse {
   metrics: Record<string, number> | null;
   latency_ms: number;
   latency_breakdown: Record<string, number> | null;
+  token_usage: { input_tokens: number; output_tokens: number } | null;
+  cost_usd: number | null;
+  storage_info: Record<string, unknown> | null;
 }
 
 export interface QueryRequest {
@@ -33,6 +36,7 @@ export interface QueryRequest {
 export interface HealthResponse {
   status: string;
   initialized: boolean;
+  index_ready: boolean;
   dataset: string;
   text_retriever: string;
   image_retriever: string;
@@ -53,6 +57,19 @@ export interface FeedbackRequest {
   config?: Record<string, string>;
   user_name?: string;
   user_email?: string;
+}
+
+export interface QdrantCollectionStats {
+  name: string;
+  vectors: number;
+  dimension: number;
+  estimated_mb: number;
+  active: boolean;
+}
+
+export interface StorageOverview {
+  collections: QdrantCollectionStats[];
+  active_names: string[];
 }
 
 export interface ConfigOptions {
